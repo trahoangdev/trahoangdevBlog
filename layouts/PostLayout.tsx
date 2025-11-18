@@ -104,11 +104,17 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
             <div className="divide-y divide-gray-200 dark:divide-gray-700 xl:col-span-3 xl:row-span-2 xl:pb-0">
               <div className="prose max-w-none pt-10 pb-8 dark:prose-dark">{children}</div>
               <div className="pt-6 pb-6 text-sm text-gray-700 dark:text-gray-300">
-                <Link href={discussUrl(slug)} rel="nofollow">
-                  {'Discuss on Twitter'}
+                <Link
+                  href={discussUrl(slug)}
+                  rel="nofollow"
+                  className="hover:text-primary-500 transition-colors"
+                >
+                  {'Thảo luận trên Twitter'}
                 </Link>
                 {` • `}
-                <Link href={editUrl(slug)}>{'View on GitHub'}</Link>
+                <Link href={editUrl(slug)} className="hover:text-primary-500 transition-colors">
+                  {'Xem trên GitHub'}
+                </Link>
               </div>
               <Comments frontMatter={content} />
             </div>
@@ -117,7 +123,7 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                 {tags && (
                   <div className="py-4 xl:py-8">
                     <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                      Tags
+                      Thẻ
                     </h2>
                     <div className="flex flex-wrap">
                       {tags.map((tag) => (
@@ -131,9 +137,9 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                     {prev && (
                       <div>
                         <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                          Previous Article
+                          Bài Trước
                         </h2>
-                        <div className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400">
+                        <div className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                           <Link href={`/blog/${prev.slug}`}>{prev.title}</Link>
                         </div>
                       </div>
@@ -141,9 +147,9 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                     {next && (
                       <div>
                         <h2 className="text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                          Next Article
+                          Bài Tiếp
                         </h2>
-                        <div className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400">
+                        <div className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                           <Link href={`/blog/${next.slug}`}>{next.title}</Link>
                         </div>
                       </div>
@@ -154,9 +160,9 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
               <div className="pt-4 xl:pt-8">
                 <Link
                   href="/blog"
-                  className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+                  className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
                 >
-                  &larr; Back to the blog
+                  &larr; Quay lại Blog
                 </Link>
               </div>
             </footer>

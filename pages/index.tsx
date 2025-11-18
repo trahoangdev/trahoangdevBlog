@@ -51,7 +51,7 @@ export default function Home({ posts }: InferGetStaticPropsType<typeof getStatic
                           <h2 className="text-2xl font-bold leading-8 tracking-tight">
                             <Link
                               href={`/blog/${slug}`}
-                              className="text-gray-900 dark:text-gray-100"
+                              className="text-gray-900 transition-colors hover:text-primary-500 dark:text-gray-100 dark:hover:text-primary-400"
                             >
                               {title}
                             </Link>
@@ -69,7 +69,7 @@ export default function Home({ posts }: InferGetStaticPropsType<typeof getStatic
                       <div className="text-base font-medium leading-6">
                         <Link
                           href={`/blog/${slug}`}
-                          className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+                          className="text-primary-500 transition-colors hover:text-primary-600 dark:hover:text-primary-400"
                           aria-label={`Đọc "${title}"`}
                         >
                           Đọc thêm &rarr;
@@ -87,7 +87,7 @@ export default function Home({ posts }: InferGetStaticPropsType<typeof getStatic
         <div className="flex justify-end text-base font-medium leading-6">
           <Link
             href="/blog"
-            className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
+            className="text-primary-500 transition-colors hover:text-primary-600 dark:hover:text-primary-400"
             aria-label="tất cả bài viết"
           >
             Tất Cả Bài Viết &rarr;
