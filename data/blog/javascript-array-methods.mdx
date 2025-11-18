@@ -1,0 +1,92 @@
+---
+title: 'JavaScript Array Methods - Các Phương Thức Mảng'
+date: '2025-11-18'
+tags: ['javascript', 'array', 'methods']
+draft: false
+summary: 'Tìm hiểu các phương thức xử lý mảng phổ biến trong JavaScript.'
+---
+
+## Các Phương Thức Cơ Bản
+
+### Push và Pop
+
+```javascript
+let fruits = ["Táo", "Cam"];
+
+// Thêm vào cuối
+fruits.push("Chuối");
+console.log(fruits); // ["Táo", "Cam", "Chuối"]
+
+// Xóa phần tử cuối
+let lastFruit = fruits.pop();
+console.log(lastFruit); // "Chuối"
+console.log(fruits); // ["Táo", "Cam"]
+```
+
+### Shift và Unshift
+
+```javascript
+let numbers = [2, 3, 4];
+
+// Thêm vào đầu
+numbers.unshift(1);
+console.log(numbers); // [1, 2, 3, 4]
+
+// Xóa phần tử đầu
+let first = numbers.shift();
+console.log(first); // 1
+console.log(numbers); // [2, 3, 4]
+```
+
+## Map - Biến Đổi Mảng
+
+```javascript
+const numbers = [1, 2, 3, 4, 5];
+
+// Nhân đôi mỗi số
+const doubled = numbers.map(num => num * 2);
+console.log(doubled); // [2, 4, 6, 8, 10]
+
+// Chuyển đổi object
+const students = [
+    { name: "An", score: 8 },
+    { name: "Bình", score: 7 }
+];
+
+const names = students.map(student => student.name);
+console.log(names); // ["An", "Bình"]
+```
+
+## Filter - Lọc Mảng
+
+```javascript
+const numbers = [1, 2, 3, 4, 5, 6];
+
+// Lọc số chẵn
+const evenNumbers = numbers.filter(num => num % 2 === 0);
+console.log(evenNumbers); // [2, 4, 6]
+
+// Lọc sinh viên đạt điểm cao
+const students = [
+    { name: "An", score: 8 },
+    { name: "Bình", score: 5 },
+    { name: "Chi", score: 9 }
+];
+
+const passed = students.filter(student => student.score >= 7);
+console.log(passed); // [{name: "An", score: 8}, {name: "Chi", score: 9}]
+```
+
+## Reduce - Tính Toán Tổng Hợp
+
+```javascript
+const numbers = [1, 2, 3, 4, 5];
+
+// Tính tổng
+const sum = numbers.reduce((total, num) => total + num, 0);
+console.log(sum); // 15
+
+// Tính tích
+const product = numbers.reduce((result, num) => result * num, 1);
+console.log(product); // 120
+```

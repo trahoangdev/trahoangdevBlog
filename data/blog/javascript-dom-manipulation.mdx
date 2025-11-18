@@ -1,0 +1,78 @@
+---
+title: 'JavaScript DOM Manipulation - Thao Tác Với HTML'
+date: '2025-11-16'
+tags: ['javascript', 'dom', 'web']
+draft: false
+summary: 'Học cách sử dụng JavaScript để thao tác với các phần tử HTML trên trang web.'
+---
+
+## DOM Là Gì?
+
+DOM (Document Object Model) là cách trình duyệt biểu diễn cấu trúc HTML dưới dạng cây đối tượng, cho phép JavaScript tương tác với nó.
+
+## Chọn Phần Tử
+
+```javascript
+// Chọn theo ID
+const header = document.getElementById("header");
+
+// Chọn theo class
+const buttons = document.getElementsByClassName("btn");
+
+// Chọn theo tag
+const paragraphs = document.getElementsByTagName("p");
+
+// Query selector (khuyến khích)
+const firstButton = document.querySelector(".btn");
+const allButtons = document.querySelectorAll(".btn");
+```
+
+## Thay Đổi Nội Dung
+
+```javascript
+// Thay đổi text
+const title = document.getElementById("title");
+title.textContent = "Tiêu đề mới";
+title.innerHTML = "<strong>Tiêu đề in đậm</strong>";
+
+// Thay đổi thuộc tính
+const image = document.querySelector("img");
+image.src = "new-image.jpg";
+image.alt = "Mô tả ảnh mới";
+```
+
+## Thay Đổi Style
+
+```javascript
+const box = document.getElementById("box");
+
+// Thay đổi CSS trực tiếp
+box.style.backgroundColor = "blue";
+box.style.width = "200px";
+box.style.padding = "20px";
+
+// Thêm/xóa class
+box.classList.add("active");
+box.classList.remove("hidden");
+box.classList.toggle("highlight");
+```
+
+## Xử Lý Sự Kiện
+
+```javascript
+const button = document.getElementById("myButton");
+
+// Click event
+button.addEventListener("click", function() {
+    alert("Button được click!");
+});
+
+// Mouse events
+button.addEventListener("mouseover", () => {
+    button.style.backgroundColor = "yellow";
+});
+
+button.addEventListener("mouseout", () => {
+    button.style.backgroundColor = "";
+});
+```

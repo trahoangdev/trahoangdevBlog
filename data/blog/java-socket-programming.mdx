@@ -1,0 +1,552 @@
+---
+title: 'Java Socket Programming - Xây Dựng Ứng Dụng Client-Server'
+date: '2025-11-24'
+tags: ['java', 'network', 'socket', 'tcp']
+draft: false
+summary: 'Học cách sử dụng Java Socket để xây dựng ứng dụng client-server với TCP.'
+---
+
+## Socket Programming Trong Java
+
+Java cung cấp package `java.net` với các class mạnh mẽ để lập trình mạng. Socket là điểm cuối (endpoint) của kết nối mạng hai chiều giữa hai chương trình chạy trên mạng.
+
+## Các Class Chính
+
+### 1. Socket (Client-side)
+- Kết nối đến server
+- Gửi và nhận dữ liệu
+
+### 2. ServerSocket (Server-side)
+- Lắng nghe kết nối từ client
+- Chấp nhận kết nối và tạo Socket
+
+### 3. InetAddress
+- Đại diện cho địa chỉ IP
+- DNS lookup
+
+## TCP Socket - Echo Server/Client
+
+### Echo Server
+
+Server nhận message từ client và gửi lại (echo).
+
+```java
+import java.io.*;
+import java.net.*;
+
+public class EchoServer {
+    private ServerSocket serverSocket;
+    
+    public void start(int port) throws IOException {
+        serverSocket = new ServerSocket(port);
+        System.out.println("Server đang lắng nghe trên port " + port);
+        
+        while (true) {
+            // Chờ client kết nối
+            Socket clientSocket = serverSocket.accept();
+            System.out.println("Client đã kết nối: " + 
+                clientSocket.getInetAddress().getHostAddress());
+            
+            // Xử lý client trong thread riêng
+            new ClientHandler(clientSocket).start();
+        }
+    }
+    
+    public void stop() throws IOException {
+        serverSocket.close();
+    }
+    
+    // Thread xử lý mỗi client
+    private static class ClientHandler extends Thread {
+        private Socket clientSocket;
+        private PrintWriter out;
+        private BufferedReader in;
+        
+        public ClientHandler(Socket socket) {
+            this.clientSocket = socket;
+        }
+        
+        public void run() {
+            try {
+                // Tạo input/output streams
+                out = new PrintWriter(
+                    clientSocket.getOutputStream(), true
+                );
+                in = new BufferedReader(
+                    new InputStreamReader(clientSocket.getInputStream())
+                );
+                
+                String inputLine;
+                // Đọc và echo lại message
+                while ((inputLine = in.readLine()) != null) {
+                    System.out.println("Nhận: " + inputLine);
+                    
+                    if ("bye".equalsIgnoreCase(inputLine)) {
+                        out.println("Goodbye!");
+                        break;
+                    }
+                    
+                    // Echo lại message
+                    out.println("Echo: " + inputLine);
+                }
+                
+                // Đóng kết nối
+                in.close();
+                out.close();
+                clientSocket.close();
+                
+            } catch (IOException e) {
+                System.out.println("Lỗi xử lý client: " + e.getMessage());
+            }
+        }
+    }
+    
+    public static void main(String[] args) {
+        EchoServer server = new EchoServer();
+        try {
+            server.start(8080);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Echo Client
+
+```java
+import java.io.*;
+import java.net.*;
+import java.util.Scanner;
+
+public class EchoClient {
+    private Socket clientSocket;
+    private PrintWriter out;
+    private BufferedReader in;
+    
+    public void startConnection(String ip, int port) throws IOException {
+        clientSocket = new Socket(ip, port);
+        out = new PrintWriter(clientSocket.getOutputStream(), true);
+        in = new BufferedReader(
+            new InputStreamReader(clientSocket.getInputStream())
+        );
+        System.out.println("Đã kết nối đến server!");
+    }
+    
+    public String sendMessage(String msg) throws IOException {
+        out.println(msg);
+        return in.readLine();
+    }
+    
+    public void stopConnection() throws IOException {
+        in.close();
+        out.close();
+        clientSocket.close();
+    }
+    
+    public static void main(String[] args) {
+        EchoClient client = new EchoClient();
+        Scanner scanner = new Scanner(System.in);
+        
+        try {
+            client.startConnection("localhost", 8080);
+            
+            System.out.println("Nhập message (gõ 'bye' để thoát):");
+            
+            while (true) {
+                System.out.print("> ");
+                String message = scanner.nextLine();
+                
+                String response = client.sendMessage(message);
+                System.out.println("Server: " + response);
+                
+                if ("bye".equalsIgnoreCase(message)) {
+                    break;
+                }
+            }
+            
+            client.stopConnection();
+            scanner.close();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+## Chat Application - Multi-Client
+
+### Chat Server
+
+```java
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+public class ChatServer {
+    private static Set<ClientHandler> clientHandlers = new HashSet<>();
+    private ServerSocket serverSocket;
+    
+    public void start(int port) throws IOException {
+        serverSocket = new ServerSocket(port);
+        System.out.println("Chat Server đang chạy trên port " + port);
+        
+        while (true) {
+            Socket clientSocket = serverSocket.accept();
+            ClientHandler clientHandler = new ClientHandler(clientSocket);
+            clientHandlers.add(clientHandler);
+            clientHandler.start();
+        }
+    }
+    
+    // Broadcast message đến tất cả clients
+    public static void broadcast(String message, ClientHandler sender) {
+        for (ClientHandler client : clientHandlers) {
+            if (client != sender) {
+                client.sendMessage(message);
+            }
+        }
+    }
+    
+    // Xóa client khi disconnect
+    public static void removeClient(ClientHandler client) {
+        clientHandlers.remove(client);
+    }
+    
+    private static class ClientHandler extends Thread {
+        private Socket socket;
+        private PrintWriter out;
+        private BufferedReader in;
+        private String username;
+        
+        public ClientHandler(Socket socket) {
+            this.socket = socket;
+        }
+        
+        public void run() {
+            try {
+                in = new BufferedReader(
+                    new InputStreamReader(socket.getInputStream())
+                );
+                out = new PrintWriter(socket.getOutputStream(), true);
+                
+                // Nhận username
+                out.println("Nhập username của bạn:");
+                username = in.readLine();
+                
+                System.out.println(username + " đã tham gia chat!");
+                broadcast(username + " đã tham gia chat!", this);
+                
+                String message;
+                while ((message = in.readLine()) != null) {
+                    if ("exit".equalsIgnoreCase(message)) {
+                        break;
+                    }
+                    
+                    System.out.println(username + ": " + message);
+                    broadcast(username + ": " + message, this);
+                }
+                
+            } catch (IOException e) {
+                System.out.println("Lỗi: " + e.getMessage());
+            } finally {
+                try {
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                removeClient(this);
+                broadcast(username + " đã rời khỏi chat!", this);
+                System.out.println(username + " đã ngắt kết nối");
+            }
+        }
+        
+        public void sendMessage(String message) {
+            out.println(message);
+        }
+    }
+    
+    public static void main(String[] args) {
+        ChatServer server = new ChatServer();
+        try {
+            server.start(8080);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### Chat Client
+
+```java
+import java.io.*;
+import java.net.*;
+import java.util.Scanner;
+
+public class ChatClient {
+    private Socket socket;
+    private BufferedReader in;
+    private PrintWriter out;
+    
+    public void start(String host, int port) throws IOException {
+        socket = new Socket(host, port);
+        in = new BufferedReader(
+            new InputStreamReader(socket.getInputStream())
+        );
+        out = new PrintWriter(socket.getOutputStream(), true);
+        
+        // Thread nhận message từ server
+        new Thread(new MessageReceiver()).start();
+        
+        // Thread gửi message đến server
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            String message = scanner.nextLine();
+            out.println(message);
+            
+            if ("exit".equalsIgnoreCase(message)) {
+                break;
+            }
+        }
+        
+        scanner.close();
+        socket.close();
+    }
+    
+    private class MessageReceiver implements Runnable {
+        public void run() {
+            try {
+                String message;
+                while ((message = in.readLine()) != null) {
+                    System.out.println(message);
+                }
+            } catch (IOException e) {
+                System.out.println("Ngắt kết nối từ server");
+            }
+        }
+    }
+    
+    public static void main(String[] args) {
+        ChatClient client = new ChatClient();
+        try {
+            client.start("localhost", 8080);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+## File Transfer Application
+
+### File Server
+
+```java
+import java.io.*;
+import java.net.*;
+
+public class FileServer {
+    public static void main(String[] args) {
+        int port = 8080;
+        
+        try (ServerSocket serverSocket = new ServerSocket(port)) {
+            System.out.println("File Server đang chạy trên port " + port);
+            
+            while (true) {
+                Socket clientSocket = serverSocket.accept();
+                System.out.println("Client kết nối: " + 
+                    clientSocket.getInetAddress());
+                
+                new Thread(() -> handleClient(clientSocket)).start();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private static void handleClient(Socket socket) {
+        try {
+            BufferedReader in = new BufferedReader(
+                new InputStreamReader(socket.getInputStream())
+            );
+            
+            // Nhận tên file
+            String fileName = in.readLine();
+            System.out.println("Client yêu cầu file: " + fileName);
+            
+            File file = new File("server_files/" + fileName);
+            
+            if (file.exists()) {
+                // Gửi file
+                FileInputStream fis = new FileInputStream(file);
+                OutputStream os = socket.getOutputStream();
+                
+                // Gửi kích thước file
+                DataOutputStream dos = new DataOutputStream(os);
+                dos.writeLong(file.length());
+                
+                // Gửi nội dung file
+                byte[] buffer = new byte[4096];
+                int bytesRead;
+                while ((bytesRead = fis.read(buffer)) != -1) {
+                    os.write(buffer, 0, bytesRead);
+                }
+                
+                fis.close();
+                System.out.println("Đã gửi file: " + fileName);
+            } else {
+                // File không tồn tại
+                DataOutputStream dos = new DataOutputStream(
+                    socket.getOutputStream()
+                );
+                dos.writeLong(-1);
+                System.out.println("File không tồn tại: " + fileName);
+            }
+            
+            socket.close();
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+### File Client
+
+```java
+import java.io.*;
+import java.net.*;
+import java.util.Scanner;
+
+public class FileClient {
+    public static void main(String[] args) {
+        String host = "localhost";
+        int port = 8080;
+        
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Nhập tên file cần tải: ");
+        String fileName = scanner.nextLine();
+        
+        try (Socket socket = new Socket(host, port)) {
+            // Gửi tên file
+            PrintWriter out = new PrintWriter(
+                socket.getOutputStream(), true
+            );
+            out.println(fileName);
+            
+            // Nhận file
+            DataInputStream dis = new DataInputStream(
+                socket.getInputStream()
+            );
+            long fileSize = dis.readLong();
+            
+            if (fileSize == -1) {
+                System.out.println("File không tồn tại trên server!");
+                return;
+            }
+            
+            System.out.println("Đang tải file (" + fileSize + " bytes)...");
+            
+            FileOutputStream fos = new FileOutputStream(
+                "downloaded_" + fileName
+            );
+            
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            long totalRead = 0;
+            
+            while (totalRead < fileSize && 
+                   (bytesRead = dis.read(buffer)) != -1) {
+                fos.write(buffer, 0, bytesRead);
+                totalRead += bytesRead;
+                
+                // Hiển thị progress
+                int progress = (int) ((totalRead * 100) / fileSize);
+                System.out.print("\rProgress: " + progress + "%");
+            }
+            
+            fos.close();
+            System.out.println("\nTải file thành công!");
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        scanner.close();
+    }
+}
+```
+
+## Best Practices
+
+### 1. Xử Lý Exception
+```java
+try {
+    // Network code
+} catch (IOException e) {
+    e.printStackTrace();
+} finally {
+    // Đóng resources
+    if (socket != null) socket.close();
+}
+```
+
+### 2. Sử Dụng Try-With-Resources
+```java
+try (Socket socket = new Socket("localhost", 8080);
+     PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+     BufferedReader in = new BufferedReader(
+         new InputStreamReader(socket.getInputStream()))) {
+    // Code here
+} catch (IOException e) {
+    e.printStackTrace();
+}
+```
+
+### 3. Multi-Threading
+- Xử lý mỗi client trong thread riêng
+- Tránh block main thread
+
+### 4. Timeout
+```java
+socket.setSoTimeout(5000); // 5 seconds timeout
+```
+
+### 5. Buffer Size
+```java
+socket.setReceiveBufferSize(8192);
+socket.setSendBufferSize(8192);
+```
+
+## Debugging Tips
+
+### 1. Kiểm Tra Port
+```bash
+netstat -an | findstr 8080  # Windows
+netstat -an | grep 8080     # Linux/Mac
+```
+
+### 2. Test Với Telnet
+```bash
+telnet localhost 8080
+```
+
+### 3. Log Messages
+```java
+System.out.println("Client connected: " + socket.getInetAddress());
+```
+
+## Kết Luận
+
+Socket programming trong Java cho phép bạn xây dựng các ứng dụng mạng mạnh mẽ. Từ chat application đến file transfer, các khả năng là vô tận!
+
+**Điểm cần nhớ:**
+- Luôn đóng socket sau khi sử dụng
+- Xử lý exception đúng cách
+- Sử dụng multi-threading cho nhiều clients
+- Test kỹ trước khi deploy
+
+Trong bài tiếp theo, chúng ta sẽ tìm hiểu về HTTP và RESTful API!

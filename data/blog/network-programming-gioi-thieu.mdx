@@ -1,0 +1,399 @@
+---
+title: 'Lập Trình Mạng - Giới Thiệu và Khái Niệm Cơ Bản'
+date: '2025-11-22'
+tags: ['network', 'programming', 'basics', 'tcp-ip']
+draft: false
+summary: 'Tìm hiểu về lập trình mạng, mô hình OSI, TCP/IP và các khái niệm cơ bản trong network programming.'
+---
+
+## Lập Trình Mạng Là Gì?
+
+Lập trình mạng (Network Programming) là việc viết các chương trình máy tính có khả năng giao tiếp với nhau qua mạng. Đây là nền tảng của hầu hết các ứng dụng hiện đại như web, email, chat, game online, và cloud computing.
+
+## Tại Sao Cần Học Lập Trình Mạng?
+
+### 1. Ứng Dụng Rộng Rãi
+- **Web Applications**: Client-Server communication
+- **Mobile Apps**: API calls, real-time updates
+- **IoT Devices**: Kết nối và điều khiển thiết bị
+- **Game Online**: Multiplayer gaming
+- **Cloud Services**: Distributed systems
+
+### 2. Kỹ Năng Quan Trọng
+- Hiểu cách internet hoạt động
+- Debug network issues
+- Tối ưu hiệu suất ứng dụng
+- Bảo mật thông tin truyền tải
+
+## Mô Hình OSI (7 Layers)
+
+Mô hình OSI (Open Systems Interconnection) chia quá trình truyền thông mạng thành 7 tầng:
+
+### Các Tầng Từ Trên Xuống:
+
+**7. Application Layer (Tầng Ứng Dụng)**
+- Giao tiếp trực tiếp với người dùng
+- Protocols: HTTP, HTTPS, FTP, SMTP, DNS
+- Ví dụ: Web browser, Email client
+
+**6. Presentation Layer (Tầng Trình Diễn)**
+- Mã hóa/giải mã dữ liệu
+- Nén dữ liệu
+- Format conversion (JSON, XML)
+
+**5. Session Layer (Tầng Phiên)**
+- Quản lý phiên kết nối
+- Authentication, authorization
+- Đồng bộ hóa dữ liệu
+
+**4. Transport Layer (Tầng Giao Vận)**
+- Truyền dữ liệu end-to-end
+- Protocols: TCP, UDP
+- Port numbers
+
+**3. Network Layer (Tầng Mạng)**
+- Định tuyến gói tin
+- IP addressing
+- Protocols: IP, ICMP, ARP
+
+**2. Data Link Layer (Tầng Liên Kết Dữ Liệu)**
+- Truyền dữ liệu giữa các node kề nhau
+- MAC addressing
+- Error detection
+
+**1. Physical Layer (Tầng Vật Lý)**
+- Truyền bit qua môi trường vật lý
+- Cables, wireless signals
+
+## Mô Hình TCP/IP (4 Layers)
+
+Mô hình thực tế được sử dụng trên Internet:
+
+```
+┌─────────────────────────┐
+│   Application Layer     │  HTTP, FTP, SMTP, DNS
+├─────────────────────────┤
+│   Transport Layer       │  TCP, UDP
+├─────────────────────────┤
+│   Internet Layer        │  IP, ICMP, ARP
+├─────────────────────────┤
+│   Network Access Layer  │  Ethernet, WiFi
+└─────────────────────────┘
+```
+
+## IP Address (Địa Chỉ IP)
+
+### IPv4
+- 32-bit address
+- Format: 192.168.1.1
+- Khoảng 4.3 tỷ địa chỉ
+
+```java
+// Ví dụ IPv4
+String ipv4 = "192.168.1.100";
+```
+
+### IPv6
+- 128-bit address
+- Format: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+- Số lượng địa chỉ gần như vô hạn
+
+### Phân Loại IP
+
+**Public IP**: Địa chỉ duy nhất trên Internet
+**Private IP**: Sử dụng trong mạng nội bộ
+- Class A: 10.0.0.0 - 10.255.255.255
+- Class B: 172.16.0.0 - 172.31.255.255
+- Class C: 192.168.0.0 - 192.168.255.255
+
+## Port Numbers
+
+Port là số định danh cho các dịch vụ/ứng dụng trên một máy tính.
+
+### Phân Loại Port:
+- **Well-known ports (0-1023)**: Dịch vụ hệ thống
+- **Registered ports (1024-49151)**: Ứng dụng người dùng
+- **Dynamic ports (49152-65535)**: Tạm thời
+
+### Các Port Phổ Biến:
+
+| Port | Service | Protocol |
+|------|---------|----------|
+| 20, 21 | FTP | TCP |
+| 22 | SSH | TCP |
+| 23 | Telnet | TCP |
+| 25 | SMTP | TCP |
+| 53 | DNS | TCP/UDP |
+| 80 | HTTP | TCP |
+| 443 | HTTPS | TCP |
+| 3306 | MySQL | TCP |
+| 5432 | PostgreSQL | TCP |
+| 8080 | HTTP Alt | TCP |
+
+```java
+// Ví dụ kết nối với port
+String host = "localhost";
+int port = 8080;
+Socket socket = new Socket(host, port);
+```
+
+## TCP vs UDP
+
+### TCP (Transmission Control Protocol)
+
+**Đặc điểm:**
+- Connection-oriented (hướng kết nối)
+- Đảm bảo dữ liệu đến đích
+- Có thứ tự
+- Chậm hơn UDP
+
+**Sử dụng khi:**
+- Cần độ tin cậy cao
+- Web browsing (HTTP/HTTPS)
+- Email (SMTP, POP3, IMAP)
+- File transfer (FTP)
+
+```java
+// TCP Server Example
+ServerSocket serverSocket = new ServerSocket(8080);
+Socket clientSocket = serverSocket.accept();
+```
+
+### UDP (User Datagram Protocol)
+
+**Đặc điểm:**
+- Connectionless (không kết nối)
+- Không đảm bảo dữ liệu đến đích
+- Không có thứ tự
+- Nhanh hơn TCP
+
+**Sử dụng khi:**
+- Cần tốc độ cao
+- Video streaming
+- Online gaming
+- VoIP (Voice over IP)
+- DNS queries
+
+```java
+// UDP Socket Example
+DatagramSocket socket = new DatagramSocket(9876);
+```
+
+## So Sánh TCP và UDP
+
+| Tiêu chí | TCP | UDP |
+|----------|-----|-----|
+| Kết nối | Có | Không |
+| Độ tin cậy | Cao | Thấp |
+| Tốc độ | Chậm | Nhanh |
+| Thứ tự | Đảm bảo | Không đảm bảo |
+| Header size | 20 bytes | 8 bytes |
+| Use case | Web, Email, FTP | Streaming, Gaming |
+
+## Socket Programming
+
+Socket là endpoint cho giao tiếp mạng giữa hai máy tính.
+
+### Các Loại Socket:
+
+**1. Stream Socket (TCP)**
+```java
+// Client
+Socket socket = new Socket("localhost", 8080);
+OutputStream out = socket.getOutputStream();
+out.write("Hello Server".getBytes());
+
+// Server
+ServerSocket serverSocket = new ServerSocket(8080);
+Socket clientSocket = serverSocket.accept();
+InputStream in = clientSocket.getInputStream();
+```
+
+**2. Datagram Socket (UDP)**
+```java
+// Sender
+DatagramSocket socket = new DatagramSocket();
+byte[] data = "Hello".getBytes();
+DatagramPacket packet = new DatagramPacket(
+    data, data.length, 
+    InetAddress.getByName("localhost"), 9876
+);
+socket.send(packet);
+
+// Receiver
+DatagramSocket socket = new DatagramSocket(9876);
+byte[] buffer = new byte[1024];
+DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+socket.receive(packet);
+```
+
+## Client-Server Architecture
+
+### Mô Hình Hoạt Động:
+
+```
+Client                          Server
+  │                               │
+  │  1. Gửi request              │
+  ├──────────────────────────────>│
+  │                               │
+  │                          2. Xử lý
+  │                               │
+  │  3. Nhận response            │
+  │<──────────────────────────────┤
+  │                               │
+```
+
+### Ví Dụ Đơn Giản:
+
+**Server:**
+```java
+public class SimpleServer {
+    public static void main(String[] args) throws IOException {
+        ServerSocket serverSocket = new ServerSocket(8080);
+        System.out.println("Server đang chờ kết nối...");
+        
+        Socket clientSocket = serverSocket.accept();
+        System.out.println("Client đã kết nối!");
+        
+        BufferedReader in = new BufferedReader(
+            new InputStreamReader(clientSocket.getInputStream())
+        );
+        PrintWriter out = new PrintWriter(
+            clientSocket.getOutputStream(), true
+        );
+        
+        String message = in.readLine();
+        System.out.println("Nhận: " + message);
+        
+        out.println("Server đã nhận: " + message);
+        
+        clientSocket.close();
+        serverSocket.close();
+    }
+}
+```
+
+**Client:**
+```java
+public class SimpleClient {
+    public static void main(String[] args) throws IOException {
+        Socket socket = new Socket("localhost", 8080);
+        
+        PrintWriter out = new PrintWriter(
+            socket.getOutputStream(), true
+        );
+        BufferedReader in = new BufferedReader(
+            new InputStreamReader(socket.getInputStream())
+        );
+        
+        out.println("Xin chào Server!");
+        
+        String response = in.readLine();
+        System.out.println("Server trả lời: " + response);
+        
+        socket.close();
+    }
+}
+```
+
+## DNS (Domain Name System)
+
+DNS chuyển đổi tên miền thành địa chỉ IP.
+
+```java
+// Ví dụ DNS lookup
+InetAddress address = InetAddress.getByName("google.com");
+System.out.println("IP: " + address.getHostAddress());
+
+// Output: IP: 142.250.185.46
+```
+
+## HTTP/HTTPS
+
+### HTTP (HyperText Transfer Protocol)
+- Port 80
+- Không mã hóa
+- Dữ liệu có thể bị đánh cắp
+
+### HTTPS (HTTP Secure)
+- Port 443
+- Mã hóa SSL/TLS
+- An toàn hơn
+
+```java
+// HTTP Request Example
+URL url = new URL("https://api.example.com/data");
+HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+conn.setRequestMethod("GET");
+
+int responseCode = conn.getResponseCode();
+System.out.println("Response Code: " + responseCode);
+```
+
+## Các Khái Niệm Quan Trọng
+
+### 1. Bandwidth (Băng Thông)
+- Lượng dữ liệu truyền trong một khoảng thời gian
+- Đơn vị: Mbps, Gbps
+
+### 2. Latency (Độ Trễ)
+- Thời gian để dữ liệu đi từ nguồn đến đích
+- Đơn vị: milliseconds (ms)
+
+### 3. Throughput
+- Lượng dữ liệu thực tế được truyền thành công
+
+### 4. Packet Loss
+- Gói tin bị mất trong quá trình truyền
+
+## Công Cụ Hữu Ích
+
+### 1. Wireshark
+- Phân tích gói tin mạng
+- Debug network issues
+
+### 2. Postman
+- Test API endpoints
+- HTTP client
+
+### 3. Netcat (nc)
+- Network debugging tool
+- Test TCP/UDP connections
+
+### 4. Ping
+```bash
+ping google.com
+```
+
+### 5. Traceroute
+```bash
+tracert google.com  # Windows
+traceroute google.com  # Linux/Mac
+```
+
+## Bảo Mật Mạng Cơ Bản
+
+### 1. Encryption (Mã Hóa)
+- SSL/TLS cho HTTPS
+- VPN
+
+### 2. Firewall
+- Kiểm soát traffic vào/ra
+- Block ports không cần thiết
+
+### 3. Authentication
+- Username/Password
+- API Keys
+- OAuth, JWT
+
+## Kết Luận
+
+Lập trình mạng là kỹ năng quan trọng cho mọi lập trình viên. Hiểu rõ các khái niệm cơ bản về TCP/IP, Socket, HTTP sẽ giúp bạn xây dựng các ứng dụng mạng hiệu quả và an toàn.
+
+Trong các bài tiếp theo, chúng ta sẽ đi sâu vào Socket Programming với Java và xây dựng các ứng dụng thực tế!
+
+**Tài liệu tham khảo:**
+- RFC documents (Internet standards)
+- Java Network Programming documentation
+- Computer Networks by Andrew Tanenbaum

@@ -1,0 +1,149 @@
+---
+title: 'Java Collections Framework - Làm Việc Với Dữ Liệu'
+date: '2025-11-12'
+tags: ['java', 'collections', 'data-structures']
+draft: false
+summary: 'Tìm hiểu về Java Collections Framework và các cấu trúc dữ liệu phổ biến.'
+---
+
+## Collections Framework Là Gì?
+
+Java Collections Framework cung cấp các cấu trúc dữ liệu và thuật toán để lưu trữ và xử lý nhóm các đối tượng.
+
+## ArrayList
+
+ArrayList là một mảng động, có thể thay đổi kích thước.
+
+```java
+import java.util.ArrayList;
+
+public class ArrayListExample {
+    public static void main(String[] args) {
+        // Tạo ArrayList
+        ArrayList<String> danhSachMonHoc = new ArrayList<>();
+        
+        // Thêm phần tử
+        danhSachMonHoc.add("Java");
+        danhSachMonHoc.add("JavaScript");
+        danhSachMonHoc.add("Python");
+        
+        // Truy cập phần tử
+        System.out.println("Môn đầu tiên: " + danhSachMonHoc.get(0));
+        
+        // Duyệt qua ArrayList
+        for (String monHoc : danhSachMonHoc) {
+            System.out.println(monHoc);
+        }
+        
+        // Xóa phần tử
+        danhSachMonHoc.remove("Python");
+        
+        // Kích thước
+        System.out.println("Số môn học: " + danhSachMonHoc.size());
+    }
+}
+```
+
+## LinkedList
+
+LinkedList lưu trữ các phần tử dưới dạng danh sách liên kết.
+
+```java
+import java.util.LinkedList;
+
+public class LinkedListExample {
+    public static void main(String[] args) {
+        LinkedList<Integer> numbers = new LinkedList<>();
+        
+        // Thêm phần tử
+        numbers.add(10);
+        numbers.add(20);
+        numbers.addFirst(5);   // Thêm vào đầu
+        numbers.addLast(30);   // Thêm vào cuối
+        
+        System.out.println(numbers); // [5, 10, 20, 30]
+        
+        // Lấy và xóa phần tử
+        int first = numbers.removeFirst();
+        int last = numbers.removeLast();
+    }
+}
+```
+
+## HashMap
+
+HashMap lưu trữ dữ liệu dưới dạng cặp key-value.
+
+```java
+import java.util.HashMap;
+
+public class HashMapExample {
+    public static void main(String[] args) {
+        HashMap<String, Integer> diemSo = new HashMap<>();
+        
+        // Thêm cặp key-value
+        diemSo.put("Toán", 9);
+        diemSo.put("Lý", 8);
+        diemSo.put("Hóa", 7);
+        
+        // Truy cập giá trị
+        System.out.println("Điểm Toán: " + diemSo.get("Toán"));
+        
+        // Kiểm tra key tồn tại
+        if (diemSo.containsKey("Lý")) {
+            System.out.println("Có môn Lý");
+        }
+        
+        // Duyệt qua HashMap
+        for (String mon : diemSo.keySet()) {
+            System.out.println(mon + ": " + diemSo.get(mon));
+        }
+        
+        // Xóa phần tử
+        diemSo.remove("Hóa");
+    }
+}
+```
+
+## HashSet
+
+HashSet lưu trữ các phần tử duy nhất, không trùng lặp.
+
+```java
+import java.util.HashSet;
+
+public class HashSetExample {
+    public static void main(String[] args) {
+        HashSet<String> languages = new HashSet<>();
+        
+        // Thêm phần tử
+        languages.add("Java");
+        languages.add("Python");
+        languages.add("JavaScript");
+        languages.add("Java"); // Không thêm được vì đã tồn tại
+        
+        System.out.println(languages); // [Java, Python, JavaScript]
+        
+        // Kiểm tra phần tử
+        if (languages.contains("Java")) {
+            System.out.println("Có Java trong danh sách");
+        }
+        
+        // Kích thước
+        System.out.println("Số ngôn ngữ: " + languages.size());
+    }
+}
+```
+
+## So Sánh Các Collection
+
+| Collection | Thứ tự | Trùng lặp | Truy cập |
+|-----------|--------|-----------|----------|
+| ArrayList | Có | Có | Theo index |
+| LinkedList | Có | Có | Theo thứ tự |
+| HashMap | Không | Key không trùng | Theo key |
+| HashSet | Không | Không | Không có index |
+
+## Kết Luận
+
+Collections Framework là công cụ mạnh mẽ giúp quản lý dữ liệu hiệu quả trong Java. Việc chọn đúng collection cho từng tình huống sẽ tối ưu hiệu suất ứng dụng.

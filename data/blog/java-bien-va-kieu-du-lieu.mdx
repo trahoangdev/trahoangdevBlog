@@ -1,0 +1,305 @@
+---
+title: 'Java - Biến và Kiểu Dữ Liệu'
+date: '2025-11-05'
+tags: ['java', 'variables', 'data-types']
+draft: false
+summary: 'Tìm hiểu chi tiết về các kiểu dữ liệu và cách khai báo biến trong Java.'
+---
+
+## Biến Trong Java
+
+Biến là một vùng nhớ được đặt tên để lưu trữ dữ liệu. Trong Java, mọi biến phải được khai báo với kiểu dữ liệu cụ thể trước khi sử dụng.
+
+### Cú Pháp Khai Báo Biến
+
+```java
+kieuDuLieu tenBien = giaTri;
+```
+
+**Ví dụ:**
+```java
+int age = 25;
+String name = "Nguyễn Văn A";
+double salary = 15000.50;
+boolean isStudent = true;
+```
+
+## Các Kiểu Dữ Liệu Trong Java
+
+Java có 2 nhóm kiểu dữ liệu chính:
+1. **Kiểu nguyên thủy (Primitive Types)**: 8 kiểu cơ bản
+2. **Kiểu tham chiếu (Reference Types)**: String, Array, Object, Class
+
+## Kiểu Dữ Liệu Nguyên Thủy
+
+### 1. Kiểu Số Nguyên
+
+Java có 4 kiểu số nguyên với kích thước khác nhau:
+
+```java
+byte myByte = 100;        // 8-bit, -128 đến 127
+short myShort = 5000;     // 16-bit, -32,768 đến 32,767
+int myInt = 100000;       // 32-bit, -2^31 đến 2^31-1
+long myLong = 15000000000L; // 64-bit, -2^63 đến 2^63-1
+```
+
+**Lưu ý**: Thêm 'L' hoặc 'l' ở cuối số long để phân biệt với int.
+
+**Khi nào dùng kiểu nào?**
+- `byte`: Tiết kiệm bộ nhớ khi làm việc với mảng lớn
+- `short`: Ít được sử dụng
+- `int`: Kiểu phổ biến nhất cho số nguyên
+- `long`: Khi giá trị vượt quá phạm vi của int
+
+```java
+// Ví dụ thực tế
+int soLuongSinhVien = 500;
+long danSoVietNam = 98000000L;
+byte tuoi = 25;
+```
+
+### 2. Kiểu Số Thực
+
+```java
+float myFloat = 5.75f;    // 32-bit, 6-7 chữ số thập phân
+double myDouble = 19.99;  // 64-bit, 15 chữ số thập phân (khuyến khích)
+```
+
+**Lưu ý**: Thêm 'f' hoặc 'F' ở cuối số float.
+
+```java
+// Ví dụ tính toán
+double pi = 3.14159265359;
+float giaSanPham = 299.99f;
+
+// Tính diện tích hình tròn
+double banKinh = 5.0;
+double dienTich = pi * banKinh * banKinh;
+System.out.println("Diện tích: " + dienTich);
+```
+
+### 3. Kiểu Ký Tự (char)
+
+```java
+char myChar = 'A';        // 16-bit Unicode
+char kyTuViet = 'Ế';
+char symbol = '@';
+```
+
+Char trong Java sử dụng Unicode, hỗ trợ tiếng Việt và các ngôn ngữ khác.
+
+```java
+// Ví dụ với char
+char grade = 'A';
+char firstLetter = 'N';
+
+// Có thể dùng mã Unicode
+char heart = '\u2665';  // ♥
+System.out.println(heart);
+```
+
+### 4. Kiểu Boolean
+
+```java
+boolean myBool = true;    // true hoặc false
+boolean isRaining = false;
+boolean hasPassedExam = true;
+```
+
+Boolean thường được dùng trong điều kiện và vòng lặp:
+
+```java
+boolean isLoggedIn = true;
+
+if (isLoggedIn) {
+    System.out.println("Chào mừng bạn!");
+} else {
+    System.out.println("Vui lòng đăng nhập!");
+}
+```
+
+## Bảng Tổng Hợp Kiểu Nguyên Thủy
+
+| Kiểu | Kích thước | Phạm vi | Giá trị mặc định |
+|------|-----------|---------|------------------|
+| byte | 1 byte | -128 đến 127 | 0 |
+| short | 2 bytes | -32,768 đến 32,767 | 0 |
+| int | 4 bytes | -2^31 đến 2^31-1 | 0 |
+| long | 8 bytes | -2^63 đến 2^63-1 | 0L |
+| float | 4 bytes | ~6-7 chữ số thập phân | 0.0f |
+| double | 8 bytes | ~15 chữ số thập phân | 0.0d |
+| char | 2 bytes | 0 đến 65,535 | '\u0000' |
+| boolean | 1 bit | true hoặc false | false |
+
+## Kiểu Dữ Liệu Tham Chiếu
+
+### String (Chuỗi)
+
+String là kiểu dữ liệu tham chiếu phổ biến nhất trong Java.
+
+```java
+String greeting = "Xin chào!";
+String name = "Java";
+String fullGreeting = greeting + " " + name;
+
+// Các phương thức String hữu ích
+String text = "Hello World";
+System.out.println(text.length());        // 11
+System.out.println(text.toUpperCase());   // HELLO WORLD
+System.out.println(text.toLowerCase());   // hello world
+System.out.println(text.charAt(0));       // H
+System.out.println(text.substring(0, 5)); // Hello
+```
+
+**String là immutable** (không thể thay đổi):
+```java
+String str = "Hello";
+str.concat(" World");  // Tạo String mới, không thay đổi str
+System.out.println(str);  // Vẫn là "Hello"
+
+str = str.concat(" World");  // Phải gán lại
+System.out.println(str);  // "Hello World"
+```
+
+### Array (Mảng)
+
+Mảng là tập hợp các phần tử cùng kiểu dữ liệu.
+
+```java
+// Cách 1: Khai báo và khởi tạo
+int[] numbers = {1, 2, 3, 4, 5};
+
+// Cách 2: Khai báo rồi gán giá trị
+String[] fruits = new String[3];
+fruits[0] = "Táo";
+fruits[1] = "Cam";
+fruits[2] = "Chuối";
+
+// Truy cập phần tử
+System.out.println(fruits[0]);  // Táo
+System.out.println(numbers.length);  // 5
+
+// Duyệt mảng
+for (int i = 0; i < numbers.length; i++) {
+    System.out.println(numbers[i]);
+}
+
+// Duyệt mảng với for-each
+for (String fruit : fruits) {
+    System.out.println(fruit);
+}
+```
+
+**Mảng 2 chiều:**
+```java
+int[][] matrix = {
+    {1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9}
+};
+
+System.out.println(matrix[0][0]);  // 1
+System.out.println(matrix[1][2]);  // 6
+```
+
+## Quy Tắc Đặt Tên Biến
+
+### Quy tắc bắt buộc:
+1. Bắt đầu bằng chữ cái (a-z, A-Z), $ hoặc _
+2. Không được bắt đầu bằng số
+3. Phân biệt chữ hoa chữ thường
+4. Không được trùng với từ khóa của Java
+5. Không có khoảng trắng
+
+```java
+// Đúng
+int studentAge;
+String _name;
+double $price;
+int age2;
+
+// Sai
+int 2students;  // Không được bắt đầu bằng số
+int class;      // Trùng với từ khóa
+int student age; // Có khoảng trắng
+```
+
+### Quy ước đặt tên (Convention):
+- **camelCase** cho biến và phương thức: `studentName`, `calculateTotal()`
+- **PascalCase** cho class: `StudentManager`, `BankAccount`
+- **UPPER_CASE** cho hằng số: `MAX_VALUE`, `PI`
+
+```java
+// Ví dụ quy ước
+int studentAge = 20;           // camelCase
+final double PI = 3.14159;     // UPPER_CASE
+String firstName = "Nguyen";   // camelCase
+```
+
+## Hằng Số (Constants)
+
+Sử dụng từ khóa `final` để khai báo hằng số:
+
+```java
+final double PI = 3.14159;
+final int MAX_STUDENTS = 100;
+final String SCHOOL_NAME = "HUTECH";
+
+// PI = 3.14;  // Lỗi! Không thể thay đổi giá trị hằng số
+```
+
+## Ép Kiểu (Type Casting)
+
+### Ép Kiểu Tự Động (Widening Casting)
+
+Chuyển từ kiểu nhỏ sang kiểu lớn hơn (tự động):
+
+```java
+int myInt = 9;
+double myDouble = myInt;  // int -> double (tự động)
+System.out.println(myDouble);  // 9.0
+
+// Thứ tự: byte -> short -> int -> long -> float -> double
+byte b = 10;
+short s = b;  // byte -> short
+int i = s;    // short -> int
+long l = i;   // int -> long
+float f = l;  // long -> float
+double d = f; // float -> double
+```
+
+### Ép Kiểu Thủ Công (Narrowing Casting)
+
+Chuyển từ kiểu lớn sang kiểu nhỏ hơn (phải ép kiểu thủ công):
+
+```java
+double myDouble = 9.78;
+int myInt = (int) myDouble;  // double -> int (thủ công)
+System.out.println(myInt);  // 9 (mất phần thập phân)
+
+// Ví dụ khác
+double price = 99.99;
+int roundedPrice = (int) price;  // 99
+
+long bigNumber = 1000000L;
+int smallNumber = (int) bigNumber;  // Có thể mất dữ liệu nếu quá lớn
+```
+
+**Lưu ý**: Ép kiểu có thể gây mất dữ liệu!
+
+```java
+int largeInt = 130;
+byte smallByte = (byte) largeInt;  // Overflow!
+System.out.println(smallByte);  // -126 (không phải 130)
+```
+
+## Kết Luận
+
+Hiểu rõ về biến và kiểu dữ liệu là nền tảng quan trọng để học Java hiệu quả. Hãy thực hành nhiều để nắm vững các khái niệm này!
+
+**Điểm cần nhớ:**
+- Java là ngôn ngữ strongly-typed (kiểu dữ liệu nghiêm ngặt)
+- Có 8 kiểu nguyên thủy và nhiều kiểu tham chiếu
+- Đặt tên biến theo quy ước camelCase
+- Sử dụng `final` cho hằng số
+- Cẩn thận khi ép kiểu để tránh mất dữ liệu

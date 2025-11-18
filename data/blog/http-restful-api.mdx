@@ -1,0 +1,596 @@
+---
+title: 'HTTP và RESTful API - Xây Dựng Web Services'
+date: '2025-11-26'
+tags: ['http', 'rest', 'api', 'web-services']
+draft: false
+summary: 'Tìm hiểu về HTTP protocol, RESTful API và cách xây dựng web services hiện đại.'
+---
+
+## HTTP Protocol
+
+HTTP (HyperText Transfer Protocol) là giao thức nền tảng của World Wide Web, được sử dụng để truyền tải dữ liệu giữa client và server.
+
+### Đặc Điểm HTTP
+
+- **Stateless**: Mỗi request độc lập, server không lưu trạng thái
+- **Text-based**: Dễ đọc và debug
+- **Port 80** (HTTP) và **Port 443** (HTTPS)
+- **Request-Response model**
+
+## HTTP Request Structure
+
+```
+GET /api/users HTTP/1.1
+Host: example.com
+User-Agent: Mozilla/5.0
+Accept: application/json
+Authorization: Bearer token123
+Content-Type: application/json
+
+{
+  "name": "John Doe"
+}
+```
+
+### Các Thành Phần:
+
+1. **Request Line**: Method + URL + HTTP Version
+2. **Headers**: Metadata về request
+3. **Body**: Dữ liệu gửi đi (optional)
+
+## HTTP Methods
+
+### 1. GET - Lấy Dữ Liệu
+
+```java
+// Java HttpURLConnection
+URL url = new URL("https://api.example.com/users");
+HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+conn.setRequestMethod("GET");
+conn.setRequestProperty("Accept", "application/json");
+
+int responseCode = conn.getResponseCode();
+if (responseCode == 200) {
+    BufferedReader in = new BufferedReader(
+        new InputStreamReader(conn.getInputStream())
+    );
+    String inputLine;
+    StringBuilder response = new StringBuilder();
+    
+    while ((inputLine = in.readLine()) != null) {
+        response.append(inputLine);
+    }
+    in.close();
+    
+    System.out.println(response.toString());
+}
+```
+
+### 2. POST - Tạo Mới
+
+```java
+URL url = new URL("https://api.example.com/users");
+HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+conn.setRequestMethod("POST");
+conn.setRequestProperty("Content-Type", "application/json");
+conn.setDoOutput(true);
+
+String jsonInput = "{\"name\":\"John\",\"email\":\"john@example.com\"}";
+
+try (OutputStream os = conn.getOutputStream()) {
+    byte[] input = jsonInput.getBytes("utf-8");
+    os.write(input, 0, input.length);
+}
+
+int responseCode = conn.getResponseCode();
+System.out.println("Response Code: " + responseCode);
+```
+
+### 3. PUT - Cập Nhật Toàn Bộ
+
+```java
+URL url = new URL("https://api.example.com/users/123");
+HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+conn.setRequestMethod("PUT");
+conn.setRequestProperty("Content-Type", "application/json");
+conn.setDoOutput(true);
+
+String jsonInput = "{\"name\":\"John Updated\",\"email\":\"john@example.com\"}";
+
+try (OutputStream os = conn.getOutputStream()) {
+    byte[] input = jsonInput.getBytes("utf-8");
+    os.write(input, 0, input.length);
+}
+```
+
+### 4. PATCH - Cập Nhật Một Phần
+
+```java
+// Chỉ cập nhật name, giữ nguyên các field khác
+String jsonInput = "{\"name\":\"John Updated\"}";
+```
+
+### 5. DELETE - Xóa
+
+```java
+URL url = new URL("https://api.example.com/users/123");
+HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+conn.setRequestMethod("DELETE");
+
+int responseCode = conn.getResponseCode();
+if (responseCode == 204) {
+    System.out.println("Xóa thành công!");
+}
+```
+
+## HTTP Status Codes
+
+### 1xx - Informational
+- **100 Continue**: Server đã nhận request headers
+
+### 2xx - Success
+- **200 OK**: Request thành công
+- **201 Created**: Resource được tạo thành công
+- **204 No Content**: Thành công nhưng không có data trả về
+
+### 3xx - Redirection
+- **301 Moved Permanently**: Resource đã chuyển vĩnh viễn
+- **302 Found**: Redirect tạm thời
+- **304 Not Modified**: Resource không thay đổi (cache)
+
+### 4xx - Client Error
+- **400 Bad Request**: Request không hợp lệ
+- **401 Unauthorized**: Chưa xác thực
+- **403 Forbidden**: Không có quyền truy cập
+- **404 Not Found**: Resource không tồn tại
+- **429 Too Many Requests**: Quá nhiều requests
+
+### 5xx - Server Error
+- **500 Internal Server Error**: Lỗi server
+- **502 Bad Gateway**: Gateway không hợp lệ
+- **503 Service Unavailable**: Service tạm thời không khả dụng
+
+## RESTful API
+
+REST (Representational State Transfer) là kiến trúc thiết kế API phổ biến nhất hiện nay.
+
+### Nguyên Tắc REST
+
+#### 1. Client-Server Architecture
+- Tách biệt client và server
+- Độc lập phát triển
+
+#### 2. Stateless
+- Mỗi request chứa đầy đủ thông tin
+- Server không lưu session
+
+#### 3. Cacheable
+- Response có thể được cache
+- Tăng hiệu suất
+
+#### 4. Uniform Interface
+- Sử dụng HTTP methods chuẩn
+- Resource-based URLs
+
+#### 5. Layered System
+- Có thể có nhiều layers (proxy, gateway)
+
+#### 6. Code on Demand (Optional)
+- Server có thể gửi code để client thực thi
+
+## RESTful API Design
+
+### Resource Naming
+
+**Tốt:**
+```
+GET    /api/users           # Lấy danh sách users
+GET    /api/users/123       # Lấy user có id=123
+POST   /api/users           # Tạo user mới
+PUT    /api/users/123       # Cập nhật user 123
+DELETE /api/users/123       # Xóa user 123
+```
+
+**Không tốt:**
+```
+GET    /api/getAllUsers
+GET    /api/getUserById?id=123
+POST   /api/createUser
+POST   /api/updateUser
+POST   /api/deleteUser
+```
+
+### Sử Dụng Danh Từ Số Nhiều
+
+```
+/users          ✓
+/user           ✗
+
+/products       ✓
+/product        ✗
+```
+
+### Nested Resources
+
+```
+GET /users/123/orders           # Lấy orders của user 123
+GET /users/123/orders/456       # Lấy order 456 của user 123
+POST /users/123/orders          # Tạo order cho user 123
+```
+
+### Query Parameters
+
+```
+GET /users?page=1&limit=10              # Pagination
+GET /users?sort=name&order=asc          # Sorting
+GET /users?search=john                  # Search
+GET /users?role=admin&status=active     # Filtering
+```
+
+## JSON Format
+
+### Request Body
+
+```json
+{
+  "name": "Nguyễn Văn A",
+  "email": "nguyenvana@example.com",
+  "age": 25,
+  "address": {
+    "city": "Hà Nội",
+    "district": "Cầu Giấy"
+  },
+  "skills": ["Java", "JavaScript", "Python"]
+}
+```
+
+### Response Format
+
+**Success:**
+```json
+{
+  "status": "success",
+  "data": {
+    "id": 123,
+    "name": "Nguyễn Văn A",
+    "email": "nguyenvana@example.com"
+  },
+  "message": "User created successfully"
+}
+```
+
+**Error:**
+```json
+{
+  "status": "error",
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Email is required",
+    "details": [
+      {
+        "field": "email",
+        "message": "Email field cannot be empty"
+      }
+    ]
+  }
+}
+```
+
+## Xây Dựng Simple REST API với Java
+
+### User Model
+
+```java
+public class User {
+    private int id;
+    private String name;
+    private String email;
+    
+    // Constructors
+    public User() {}
+    
+    public User(int id, String name, String email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+    }
+    
+    // Getters and Setters
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+    
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+    
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+    
+    // Convert to JSON
+    public String toJSON() {
+        return String.format(
+            "{\"id\":%d,\"name\":\"%s\",\"email\":\"%s\"}",
+            id, name, email
+        );
+    }
+}
+```
+
+### Simple HTTP Server
+
+```java
+import com.sun.net.httpserver.*;
+import java.io.*;
+import java.net.*;
+import java.util.*;
+
+public class SimpleRESTServer {
+    private static List<User> users = new ArrayList<>();
+    private static int nextId = 1;
+    
+    public static void main(String[] args) throws IOException {
+        // Khởi tạo dữ liệu mẫu
+        users.add(new User(nextId++, "Nguyễn Văn A", "a@example.com"));
+        users.add(new User(nextId++, "Trần Thị B", "b@example.com"));
+        
+        // Tạo HTTP server
+        HttpServer server = HttpServer.create(
+            new InetSocketAddress(8080), 0
+        );
+        
+        // Định nghĩa endpoints
+        server.createContext("/api/users", new UsersHandler());
+        server.setExecutor(null);
+        server.start();
+        
+        System.out.println("Server đang chạy trên http://localhost:8080");
+    }
+    
+    static class UsersHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange exchange) throws IOException {
+            String method = exchange.getRequestMethod();
+            String path = exchange.getRequestURI().getPath();
+            
+            if (method.equals("GET")) {
+                handleGet(exchange, path);
+            } else if (method.equals("POST")) {
+                handlePost(exchange);
+            } else if (method.equals("PUT")) {
+                handlePut(exchange, path);
+            } else if (method.equals("DELETE")) {
+                handleDelete(exchange, path);
+            } else {
+                sendResponse(exchange, 405, "Method Not Allowed");
+            }
+        }
+        
+        private void handleGet(HttpExchange exchange, String path) 
+                throws IOException {
+            if (path.equals("/api/users")) {
+                // GET /api/users - Lấy tất cả users
+                StringBuilder json = new StringBuilder("[");
+                for (int i = 0; i < users.size(); i++) {
+                    json.append(users.get(i).toJSON());
+                    if (i < users.size() - 1) json.append(",");
+                }
+                json.append("]");
+                
+                sendResponse(exchange, 200, json.toString());
+            } else {
+                // GET /api/users/{id} - Lấy user theo id
+                String[] parts = path.split("/");
+                if (parts.length == 4) {
+                    int id = Integer.parseInt(parts[3]);
+                    User user = findUserById(id);
+                    
+                    if (user != null) {
+                        sendResponse(exchange, 200, user.toJSON());
+                    } else {
+                        sendResponse(exchange, 404, 
+                            "{\"error\":\"User not found\"}");
+                    }
+                }
+            }
+        }
+        
+        private void handlePost(HttpExchange exchange) throws IOException {
+            // Đọc request body
+            InputStreamReader isr = new InputStreamReader(
+                exchange.getRequestBody()
+            );
+            BufferedReader br = new BufferedReader(isr);
+            String body = br.readLine();
+            
+            // Parse JSON (simplified)
+            String name = extractValue(body, "name");
+            String email = extractValue(body, "email");
+            
+            // Tạo user mới
+            User newUser = new User(nextId++, name, email);
+            users.add(newUser);
+            
+            sendResponse(exchange, 201, newUser.toJSON());
+        }
+        
+        private void handlePut(HttpExchange exchange, String path) 
+                throws IOException {
+            String[] parts = path.split("/");
+            if (parts.length == 4) {
+                int id = Integer.parseInt(parts[3]);
+                User user = findUserById(id);
+                
+                if (user != null) {
+                    // Đọc request body
+                    InputStreamReader isr = new InputStreamReader(
+                        exchange.getRequestBody()
+                    );
+                    BufferedReader br = new BufferedReader(isr);
+                    String body = br.readLine();
+                    
+                    // Update user
+                    String name = extractValue(body, "name");
+                    String email = extractValue(body, "email");
+                    user.setName(name);
+                    user.setEmail(email);
+                    
+                    sendResponse(exchange, 200, user.toJSON());
+                } else {
+                    sendResponse(exchange, 404, 
+                        "{\"error\":\"User not found\"}");
+                }
+            }
+        }
+        
+        private void handleDelete(HttpExchange exchange, String path) 
+                throws IOException {
+            String[] parts = path.split("/");
+            if (parts.length == 4) {
+                int id = Integer.parseInt(parts[3]);
+                User user = findUserById(id);
+                
+                if (user != null) {
+                    users.remove(user);
+                    sendResponse(exchange, 204, "");
+                } else {
+                    sendResponse(exchange, 404, 
+                        "{\"error\":\"User not found\"}");
+                }
+            }
+        }
+        
+        private User findUserById(int id) {
+            for (User user : users) {
+                if (user.getId() == id) {
+                    return user;
+                }
+            }
+            return null;
+        }
+        
+        private String extractValue(String json, String key) {
+            // Simplified JSON parsing
+            String search = "\"" + key + "\":\"";
+            int start = json.indexOf(search) + search.length();
+            int end = json.indexOf("\"", start);
+            return json.substring(start, end);
+        }
+        
+        private void sendResponse(HttpExchange exchange, int code, 
+                String response) throws IOException {
+            exchange.getResponseHeaders().set("Content-Type", 
+                "application/json");
+            exchange.sendResponseHeaders(code, response.length());
+            OutputStream os = exchange.getResponseBody();
+            os.write(response.getBytes());
+            os.close();
+        }
+    }
+}
+```
+
+## Testing API với cURL
+
+```bash
+# GET - Lấy tất cả users
+curl http://localhost:8080/api/users
+
+# GET - Lấy user theo id
+curl http://localhost:8080/api/users/1
+
+# POST - Tạo user mới
+curl -X POST http://localhost:8080/api/users \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Lê Văn C","email":"c@example.com"}'
+
+# PUT - Cập nhật user
+curl -X PUT http://localhost:8080/api/users/1 \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Nguyễn Văn A Updated","email":"a@example.com"}'
+
+# DELETE - Xóa user
+curl -X DELETE http://localhost:8080/api/users/1
+```
+
+## Authentication & Authorization
+
+### 1. API Key
+
+```java
+String apiKey = exchange.getRequestHeaders().getFirst("X-API-Key");
+if (!"secret-key-123".equals(apiKey)) {
+    sendResponse(exchange, 401, "{\"error\":\"Unauthorized\"}");
+    return;
+}
+```
+
+### 2. Bearer Token (JWT)
+
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+### 3. Basic Authentication
+
+```
+Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQ=
+```
+
+## Best Practices
+
+### 1. Versioning
+```
+/api/v1/users
+/api/v2/users
+```
+
+### 2. HATEOAS (Hypermedia)
+```json
+{
+  "id": 123,
+  "name": "John",
+  "links": {
+    "self": "/api/users/123",
+    "orders": "/api/users/123/orders"
+  }
+}
+```
+
+### 3. Rate Limiting
+```
+X-RateLimit-Limit: 100
+X-RateLimit-Remaining: 95
+X-RateLimit-Reset: 1640000000
+```
+
+### 4. CORS Headers
+```java
+exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
+exchange.getResponseHeaders().set("Access-Control-Allow-Methods", 
+    "GET, POST, PUT, DELETE");
+```
+
+### 5. Error Handling
+```json
+{
+  "error": {
+    "code": "VALIDATION_ERROR",
+    "message": "Invalid input",
+    "timestamp": "2025-11-26T10:30:00Z",
+    "path": "/api/users"
+  }
+}
+```
+
+## Kết Luận
+
+HTTP và RESTful API là nền tảng của web services hiện đại. Hiểu rõ các nguyên tắc REST và cách thiết kế API tốt sẽ giúp bạn xây dựng các hệ thống scalable và maintainable.
+
+**Điểm cần nhớ:**
+- Sử dụng HTTP methods đúng mục đích
+- Resource-based URLs với danh từ số nhiều
+- Status codes phù hợp
+- JSON format chuẩn
+- Authentication & Authorization
+- Versioning và documentation
+
+Hãy thực hành xây dựng API của riêng bạn và test kỹ với các tools như Postman hoặc cURL!

@@ -1,0 +1,178 @@
+---
+title: 'Java Cơ Bản - Giới Thiệu Về Ngôn Ngữ Java'
+date: '2025-11-01'
+tags: ['java', 'programming', 'basics']
+draft: false
+summary: 'Tìm hiểu về ngôn ngữ lập trình Java, lịch sử phát triển và những đặc điểm nổi bật của Java.'
+---
+
+## Giới Thiệu
+
+Java là một trong những ngôn ngữ lập trình phổ biến nhất thế giới, được phát triển bởi James Gosling và đội ngũ của ông tại Sun Microsystems (nay thuộc Oracle) vào năm 1995. Ban đầu, Java được thiết kế cho các thiết bị điện tử nhỏ, nhưng sau đó đã phát triển thành một trong những ngôn ngữ chủ đạo trong phát triển phần mềm.
+
+Tính đến nay, Java đã có hơn 25 năm phát triển và vẫn đứng trong top 3 ngôn ngữ lập trình được sử dụng nhiều nhất trên thế giới theo các bảng xếp hạng như TIOBE Index.
+
+## Lịch Sử Phát Triển
+
+- **1991**: Dự án Green bắt đầu, ban đầu có tên là "Oak"
+- **1995**: Chính thức ra mắt với tên Java
+- **1996**: JDK 1.0 được phát hành
+- **2006**: Sun Microsystems mở mã nguồn Java
+- **2010**: Oracle mua lại Sun Microsystems
+- **2014**: Java 8 ra mắt với nhiều tính năng mới (Lambda, Stream API)
+- **2017**: Java 9 giới thiệu module system
+- **2021-2024**: Các phiên bản Java hiện đại (Java 17, 21 LTS)
+
+## Đặc Điểm Nổi Bật
+
+### 1. Đa Nền Tảng (Platform Independent)
+
+Java có thể chạy trên nhiều hệ điều hành khác nhau nhờ vào Java Virtual Machine (JVM). Nguyên tắc "Write Once, Run Anywhere" (WORA) là một trong những ưu điểm lớn nhất của Java.
+
+Khi bạn viết code Java, nó sẽ được biên dịch thành bytecode (file .class), sau đó JVM sẽ thông dịch bytecode này thành mã máy phù hợp với từng hệ điều hành.
+
+```java
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Xin chào, Java!");
+        System.out.println("Java có thể chạy trên Windows, Linux, macOS!");
+    }
+}
+```
+
+**Quy trình biên dịch và chạy:**
+1. Viết code Java (.java)
+2. Biên dịch bằng javac → tạo bytecode (.class)
+3. JVM thực thi bytecode trên bất kỳ nền tảng nào
+
+### 2. Hướng Đối Tượng (Object-Oriented)
+
+Java là ngôn ngữ lập trình hướng đối tượng hoàn toàn, mọi thứ trong Java đều là object (trừ các kiểu dữ liệu nguyên thủy). Điều này giúp code dễ tổ chức, bảo trì và mở rộng.
+
+**Bốn trụ cột của OOP:**
+
+- **Đóng gói (Encapsulation)**: Ẩn dữ liệu bên trong class, chỉ cho phép truy cập qua các phương thức public
+- **Kế thừa (Inheritance)**: Class con có thể kế thừa thuộc tính và phương thức từ class cha
+- **Đa hình (Polymorphism)**: Một phương thức có thể có nhiều hình thái khác nhau
+- **Trừu tượng (Abstraction)**: Ẩn đi chi tiết cài đặt, chỉ hiển thị chức năng cần thiết
+
+```java
+// Ví dụ về OOP
+public class Animal {
+    protected String name;
+    
+    public void makeSound() {
+        System.out.println("Animal makes a sound");
+    }
+}
+
+public class Dog extends Animal {
+    @Override
+    public void makeSound() {
+        System.out.println("Dog barks: Woof! Woof!");
+    }
+}
+```
+
+### 3. Bảo Mật Cao
+
+Java có nhiều tính năng bảo mật tích hợp sẵn:
+- **Không có con trỏ**: Tránh được lỗi truy cập bộ nhớ trực tiếp
+- **Bytecode verification**: JVM kiểm tra bytecode trước khi thực thi
+- **Security Manager**: Kiểm soát quyền truy cập tài nguyên hệ thống
+- **Automatic memory management**: Garbage Collector tự động quản lý bộ nhớ
+
+### 4. Đa Luồng (Multithreading)
+
+Java hỗ trợ lập trình đa luồng ngay từ đầu, cho phép thực hiện nhiều tác vụ đồng thời.
+
+```java
+public class MyThread extends Thread {
+    public void run() {
+        System.out.println("Thread đang chạy: " + Thread.currentThread().getName());
+    }
+    
+    public static void main(String[] args) {
+        MyThread t1 = new MyThread();
+        MyThread t2 = new MyThread();
+        t1.start();
+        t2.start();
+    }
+}
+```
+
+### 5. Hiệu Suất Cao
+
+Mặc dù Java là ngôn ngữ thông dịch, nhưng nhờ JIT (Just-In-Time) compiler, Java có hiệu suất gần bằng các ngôn ngữ biên dịch như C++.
+
+## Ứng Dụng Của Java
+
+### 1. Phát Triển Ứng Dụng Web
+- **Frameworks**: Spring Boot, Jakarta EE, Struts
+- **Ví dụ**: LinkedIn, eBay, Amazon
+
+### 2. Ứng Dụng Di Động (Android)
+- Android SDK sử dụng Java làm ngôn ngữ chính
+- Hơn 85% smartphone trên thế giới chạy Android
+
+### 3. Ứng Dụng Desktop
+- **JavaFX**: Tạo giao diện đồ họa hiện đại
+- **Swing**: Framework GUI truyền thống
+
+### 4. Hệ Thống Phân Tán
+- **Apache Hadoop**: Xử lý Big Data
+- **Apache Kafka**: Message streaming platform
+- **Elasticsearch**: Search engine
+
+### 5. Ứng Dụng Doanh Nghiệp
+- Banking systems
+- Trading applications
+- ERP systems
+
+## Cài Đặt Java
+
+### Bước 1: Tải JDK
+Truy cập [Oracle JDK](https://www.oracle.com/java/technologies/downloads/) hoặc [OpenJDK](https://openjdk.org/)
+
+### Bước 2: Cài Đặt
+- Windows: Chạy file .exe
+- Linux: `sudo apt install openjdk-17-jdk`
+- macOS: `brew install openjdk@17`
+
+### Bước 3: Kiểm Tra
+```bash
+java -version
+javac -version
+```
+
+## Chương Trình Java Đầu Tiên
+
+```java
+// HelloWorld.java
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Xin chào, Java!");
+        System.out.println("Đây là chương trình Java đầu tiên của tôi!");
+    }
+}
+```
+
+**Biên dịch và chạy:**
+```bash
+javac HelloWorld.java
+java HelloWorld
+```
+
+## Tại Sao Nên Học Java?
+
+1. **Cơ hội việc làm cao**: Hàng triệu công việc yêu cầu Java
+2. **Cộng đồng lớn**: Dễ dàng tìm tài liệu và hỗ trợ
+3. **Thư viện phong phú**: Maven Central có hơn 10 triệu thư viện
+4. **Ổn định và tin cậy**: Được sử dụng bởi các tập đoàn lớn
+5. **Nền tảng vững chắc**: Học Java giúp dễ học các ngôn ngữ khác
+
+## Kết Luận
+
+Java là một ngôn ngữ mạnh mẽ và linh hoạt, phù hợp cho cả người mới bắt đầu và lập trình viên chuyên nghiệp. Với hệ sinh thái phong phú, cộng đồng lớn và ứng dụng rộng rãi, Java vẫn là một lựa chọn tuyệt vời để bắt đầu hành trình lập trình của bạn.
+
+Trong các bài viết tiếp theo, chúng ta sẽ đi sâu vào các khái niệm cụ thể của Java như biến, kiểu dữ liệu, OOP, và nhiều hơn nữa!

@@ -1,0 +1,134 @@
+---
+title: 'Java OOP - Class và Object'
+date: '2025-11-08'
+tags: ['java', 'oop', 'class', 'object']
+draft: false
+summary: 'Tìm hiểu về lập trình hướng đối tượng trong Java: Class và Object.'
+---
+
+## Lập Trình Hướng Đối Tượng (OOP)
+
+OOP là một phương pháp lập trình dựa trên khái niệm "đối tượng", chứa dữ liệu và phương thức.
+
+## Class (Lớp)
+
+Class là một bản thiết kế (blueprint) để tạo ra các đối tượng. Nó định nghĩa các thuộc tính và phương thức mà đối tượng sẽ có.
+
+```java
+public class SinhVien {
+    // Thuộc tính (Attributes)
+    String hoTen;
+    int tuoi;
+    String maSV;
+    
+    // Phương thức (Methods)
+    public void hienThiThongTin() {
+        System.out.println("Họ tên: " + hoTen);
+        System.out.println("Tuổi: " + tuoi);
+        System.out.println("Mã SV: " + maSV);
+    }
+    
+    public void hoc() {
+        System.out.println(hoTen + " đang học bài.");
+    }
+}
+```
+
+## Object (Đối Tượng)
+
+Object là một thể hiện cụ thể của class. Mỗi object có trạng thái và hành vi riêng.
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        // Tạo đối tượng
+        SinhVien sv1 = new SinhVien();
+        
+        // Gán giá trị cho thuộc tính
+        sv1.hoTen = "Nguyễn Văn A";
+        sv1.tuoi = 20;
+        sv1.maSV = "SV001";
+        
+        // Gọi phương thức
+        sv1.hienThiThongTin();
+        sv1.hoc();
+    }
+}
+```
+
+## Constructor (Hàm Khởi Tạo)
+
+Constructor là một phương thức đặc biệt được gọi khi tạo object.
+
+```java
+public class SinhVien {
+    String hoTen;
+    int tuoi;
+    String maSV;
+    
+    // Constructor mặc định
+    public SinhVien() {
+        hoTen = "Chưa có tên";
+        tuoi = 0;
+        maSV = "N/A";
+    }
+    
+    // Constructor có tham số
+    public SinhVien(String hoTen, int tuoi, String maSV) {
+        this.hoTen = hoTen;
+        this.tuoi = tuoi;
+        this.maSV = maSV;
+    }
+}
+```
+
+## Sử Dụng Constructor
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        // Sử dụng constructor mặc định
+        SinhVien sv1 = new SinhVien();
+        
+        // Sử dụng constructor có tham số
+        SinhVien sv2 = new SinhVien("Trần Thị B", 21, "SV002");
+        
+        sv2.hienThiThongTin();
+    }
+}
+```
+
+## Encapsulation (Đóng Gói)
+
+Đóng gói là việc ẩn dữ liệu bên trong class và chỉ cho phép truy cập thông qua các phương thức.
+
+```java
+public class SinhVien {
+    private String hoTen;
+    private int tuoi;
+    
+    // Getter
+    public String getHoTen() {
+        return hoTen;
+    }
+    
+    // Setter
+    public void setHoTen(String hoTen) {
+        this.hoTen = hoTen;
+    }
+    
+    public int getTuoi() {
+        return tuoi;
+    }
+    
+    public void setTuoi(int tuoi) {
+        if (tuoi > 0 && tuoi < 100) {
+            this.tuoi = tuoi;
+        }
+    }
+}
+```
+
+## Kết Luận
+
+Class và Object là nền tảng của lập trình hướng đối tượng trong Java. Việc nắm vững các khái niệm này sẽ giúp bạn xây dựng các ứng dụng có cấu trúc tốt và dễ bảo trì.

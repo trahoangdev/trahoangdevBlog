@@ -1,0 +1,60 @@
+---
+title: 'Java Exception Handling - Xử Lý Ngoại Lệ'
+date: '2025-11-10'
+tags: ['java', 'exception', 'error-handling']
+draft: false
+summary: 'Tìm hiểu cách xử lý lỗi và ngoại lệ trong Java một cách hiệu quả.'
+---
+
+## Exception Là Gì?
+
+Exception (ngoại lệ) là một sự kiện xảy ra trong quá trình thực thi chương trình, làm gián đoạn luồng thực thi bình thường.
+
+## Try-Catch Block
+
+```java
+public class ExceptionExample {
+    public static void main(String[] args) {
+        try {
+            int result = 10 / 0; // Lỗi chia cho 0
+        } catch (ArithmeticException e) {
+            System.out.println("Lỗi: Không thể chia cho 0!");
+            System.out.println("Chi tiết: " + e.getMessage());
+        }
+    }
+}
+```
+
+## Multiple Catch Blocks
+
+```java
+public class MultiCatchExample {
+    public static void main(String[] args) {
+        try {
+            int[] numbers = {1, 2, 3};
+            System.out.println(numbers[5]); // Lỗi index
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Lỗi: Index vượt quá giới hạn!");
+        } catch (Exception e) {
+            System.out.println("Lỗi khác: " + e.getMessage());
+        }
+    }
+}
+```
+
+## Finally Block
+
+```java
+public class FinallyExample {
+    public static void main(String[] args) {
+        try {
+            int result = 10 / 2;
+            System.out.println("Kết quả: " + result);
+        } catch (Exception e) {
+            System.out.println("Có lỗi xảy ra");
+        } finally {
+            System.out.println("Block này luôn được thực thi");
+        }
+    }
+}
+```

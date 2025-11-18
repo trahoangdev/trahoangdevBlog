@@ -1,0 +1,72 @@
+---
+title: 'JavaScript Cơ Bản - Giới Thiệu Về JavaScript'
+date: '2025-11-14'
+tags: ['javascript', 'web', 'programming']
+draft: false
+summary: 'Tìm hiểu về JavaScript - ngôn ngữ lập trình phổ biến nhất cho web development.'
+---
+
+## JavaScript Là Gì?
+
+JavaScript là ngôn ngữ lập trình được sử dụng để tạo các trang web tương tác. Nó chạy trên trình duyệt và có thể thay đổi nội dung HTML và CSS.
+
+## Cú Pháp Cơ Bản
+
+### Khai Báo Biến
+
+```javascript
+// var - cách cũ (không khuyến khích)
+var name = "JavaScript";
+
+// let - có thể thay đổi giá trị
+let age = 25;
+age = 26; // OK
+
+// const - không thể thay đổi giá trị
+const PI = 3.14;
+// PI = 3.15; // Lỗi!
+```
+
+### Kiểu Dữ Liệu
+
+```javascript
+// Number
+let number = 42;
+let decimal = 3.14;
+
+// String
+let text = "Xin chào";
+let name = 'JavaScript';
+
+// Boolean
+let isActive = true;
+let isCompleted = false;
+
+// Array
+let fruits = ["Táo", "Cam", "Chuối"];
+
+// Object
+let person = {
+    name: "Nguyễn Văn A",
+    age: 20,
+    city: "Hà Nội"
+};
+```
+
+## Hàm (Functions)
+
+```javascript
+// Function declaration
+function chaoHoi(ten) {
+    return "Xin chào, " + ten + "!";
+}
+
+// Arrow function
+const tinhTong = (a, b) => {
+    return a + b;
+};
+
+// Gọi hàm
+console.log(chaoHoi("JavaScript")); // Xin chào, JavaScript!
+console.log(tinhTong(5, 3)); // 8
+```
