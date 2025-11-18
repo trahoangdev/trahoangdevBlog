@@ -5,7 +5,7 @@ const siteMetadata = {
   description: 'Blog chia sẻ kiến thức về lập trình mạng, lập trình Java và JavaScript',
   language: 'vi-VN',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://your-blog-url.vercel.app',
+  siteUrl: 'https://trahoangdevblog.netlify.app',
   siteRepo: 'https://github.com/trahoangdev/trahoangdevBlog',
   siteLogo: '/static/images/logo.png',
   image: '/static/images/avatar.png',

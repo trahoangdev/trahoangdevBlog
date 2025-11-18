@@ -64,6 +64,9 @@ module.exports = withContentlayer(
     eslint: {
       dirs: ['pages', 'components', 'lib', 'layouts', 'scripts'],
     },
+    images: {
+      unoptimized: true,
+    },
     async headers() {
       return [
         {
