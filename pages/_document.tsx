@@ -15,6 +15,23 @@ class MyDocument extends Document {
           <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
           <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111827" />
           <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
+          {/* GitHub Pages SPA redirect script */}
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                (function(l) {
+                  if (l.search[1] === '/' ) {
+                    var decoded = l.search.slice(1).split('&').map(function(s) { 
+                      return s.replace(/~and~/g, '&')
+                    }).join('?');
+                    window.history.replaceState(null, null,
+                        l.pathname.slice(0, -1) + decoded + l.hash
+                    );
+                  }
+                }(window.location))
+              `,
+            }}
+          />
         </Head>
         <body className="bg-white text-black antialiased dark:bg-gray-900 dark:text-white">
           <Main />
