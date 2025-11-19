@@ -97,10 +97,7 @@ export default function Resume() {
             </ul>
 
             <p className="print:hidden">
-              <Link
-                href="/trahoangdevBlog/projects"
-                className="text-primary-500 hover:text-primary-600"
-              >
+              <Link href="/projects" className="text-primary-500 hover:text-primary-600">
                 → Xem thêm dự án
               </Link>
             </p>
@@ -115,10 +112,7 @@ export default function Resume() {
               <li>AWS Academy Cloud Security Foundations - Amazon Web Services (2025)</li>
             </ul>
             <p className="print:hidden">
-              <Link
-                href="/trahoangdevBlog/about"
-                className="text-primary-500 hover:text-primary-600"
-              >
+              <Link href="/about#certificates" className="text-primary-500 hover:text-primary-600">
                 → Xem badges chi tiết
               </Link>
             </p>
