@@ -15,7 +15,7 @@ const Image = ({ src, alt, width, height, className = '', ...rest }: ImageProps)
   const [hasError, setHasError] = useState(false)
 
   return (
-    <div className="relative overflow-hidden" style={{ width, height }}>
+    <div className="relative w-full">
       {/* Skeleton loader */}
       {isLoading && !hasError && (
         <div

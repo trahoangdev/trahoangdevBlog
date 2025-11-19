@@ -15,7 +15,7 @@ const projectsData = [
     Dự án minh họa các khái niệm về network programming, multithreading và exception handling 
     trong Java.`,
     imgSrc: '/trahoangdevBlog/static/images/projects/socket-project.png',
-    href: '/blog/java-socket-programming',
+    href: '/trahoangdevBlog/blog/java-socket-programming',
   },
   {
     title: 'RESTful API với Java',
@@ -23,7 +23,7 @@ const projectsData = [
     (GET, POST, PUT, DELETE), authentication, và data validation. Áp dụng design patterns 
     như MVC, Singleton và Factory. Tích hợp database và xử lý JSON data serialization.`,
     imgSrc: '/trahoangdevBlog/static/images/projects/api-project.png',
-    href: '/blog/http-restful-api',
+    href: '/trahoangdevBlog/blog/http-restful-api',
   },
   {
     title: 'JavaScript Async Programming',
@@ -31,7 +31,7 @@ const projectsData = [
     Async/Await và Fetch API. Xây dựng ứng dụng web tương tác với external APIs, xử lý 
     error handling và loading states. Minh họa best practices cho modern JavaScript development.`,
     imgSrc: '/trahoangdevBlog/static/images/projects/async-project.png',
-    href: '/blog/javascript-async-await',
+    href: '/trahoangdevBlog/blog/javascript-async-await',
   },
   {
     title: 'Network Protocol Implementation',
@@ -39,7 +39,7 @@ const projectsData = [
     Bao gồm HTTP client/server, TCP handshake simulation, và packet analysis. Dự án giúp 
     nắm vững kiến thức về OSI model, network security và protocol design.`,
     imgSrc: '/trahoangdevBlog/static/images/projects/network-project.png',
-    href: '/blog/network-programming-gioi-thieu',
+    href: '/trahoangdevBlog/blog/network-programming-gioi-thieu',
   },
 ]
 
