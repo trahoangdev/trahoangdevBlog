@@ -1,7 +1,16 @@
-// For static export compatibility, we use regular img tag instead of next/image
-const Image = ({ src, alt, width, height, ...rest }: any) => (
+// For static export compatibility, we use regular img tag with lazy loading
+const Image = ({ src, alt, width, height, className, ...rest }: any) => (
   // eslint-disable-next-line @next/next/no-img-element
-  <img src={src} alt={alt} width={width} height={height} {...rest} />
+  <img
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    loading="lazy"
+    decoding="async"
+    className={className}
+    {...rest}
+  />
 )
 
 export default Image

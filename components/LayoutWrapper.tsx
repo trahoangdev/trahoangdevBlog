@@ -25,6 +25,8 @@ const LayoutWrapper = ({ children }: Props) => {
                     <img
                       src="/trahoangdevBlog/static/favicons/favicon-new.png"
                       alt="Logo"
+                      loading="eager"
+                      decoding="async"
                       className="h-7 w-7 flex-shrink-0 rounded-lg shadow-sm sm:h-9 sm:w-9"
                     />
                     {typeof siteMetadata.headerTitle === 'string' ? (

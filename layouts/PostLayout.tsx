@@ -74,6 +74,8 @@ export default function PostLayout({ content, authorDetails, next, prev, childre
                         <img
                           src={author.avatar}
                           alt="avatar"
+                          loading="lazy"
+                          decoding="async"
                           className="h-9 w-9 rounded-full object-cover sm:h-10 sm:w-10"
                         />
                       )}
