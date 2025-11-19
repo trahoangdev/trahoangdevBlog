@@ -23,7 +23,7 @@ const LayoutWrapper = ({ children }: Props) => {
                 <Link href="/" aria-label={siteMetadata.headerTitle}>
                   <div className="flex items-center gap-1.5 sm:gap-2.5">
                     <img
-                      src="/static/favicons/favicon-new.png"
+                      src="/trahoangdevBlog/static/favicons/favicon-new.png"
                       alt="Logo"
                       className="h-7 w-7 flex-shrink-0 rounded-lg shadow-sm sm:h-9 sm:w-9"
                     />

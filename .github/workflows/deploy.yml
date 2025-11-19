@@ -39,6 +39,15 @@ jobs:
       - name: Export static files
         run: npm run export
 
+      - name: Fix static files path
+        run: |
+          if [ -d "out/static" ]; then
+            echo "Static files already in correct location"
+          else
+            echo "Static files not found, checking structure..."
+            ls -la out/
+          fi
+
       - name: Add .nojekyll
         run: touch out/.nojekyll
 
