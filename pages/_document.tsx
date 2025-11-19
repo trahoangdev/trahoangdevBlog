@@ -5,12 +5,34 @@ class MyDocument extends Document {
     return (
       <Html lang="en" className="scroll-smooth">
         <Head>
-          <link rel="icon" type="image/png" href="/static/favicons/favicon-new.png" />
-          <link rel="apple-touch-icon" sizes="76x76" href="/static/favicons/favicon-new.png" />
-          <link rel="icon" type="image/png" sizes="32x32" href="/static/favicons/favicon-new.png" />
-          <link rel="icon" type="image/png" sizes="16x16" href="/static/favicons/favicon-new.png" />
-          <link rel="manifest" href="/static/favicons/site.webmanifest" />
-          <link rel="mask-icon" href="/static/favicons/safari-pinned-tab.svg" color="#14b8a6" />
+          <link
+            rel="icon"
+            type="image/png"
+            href="/trahoangdevBlog/static/favicons/favicon-new.png"
+          />
+          <link
+            rel="apple-touch-icon"
+            sizes="76x76"
+            href="/trahoangdevBlog/static/favicons/favicon-new.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/trahoangdevBlog/static/favicons/favicon-new.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/trahoangdevBlog/static/favicons/favicon-new.png"
+          />
+          <link rel="manifest" href="/trahoangdevBlog/static/favicons/site.webmanifest" />
+          <link
+            rel="mask-icon"
+            href="/trahoangdevBlog/static/favicons/safari-pinned-tab.svg"
+            color="#14b8a6"
+          />
           <meta name="msapplication-TileColor" content="#14b8a6" />
           <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
           <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111827" />

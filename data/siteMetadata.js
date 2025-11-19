@@ -7,9 +7,9 @@ const siteMetadata = {
   theme: 'system', // system, dark or light
   siteUrl: 'https://trahoangdev.github.io/trahoangdevBlog',
   siteRepo: 'https://github.com/trahoangdev/trahoangdevBlog',
-  siteLogo: '/static/images/logo.png',
-  image: '/static/images/avatar.png',
-  socialBanner: '/static/images/twitter-card.png',
+  siteLogo: '/trahoangdevBlog/static/images/logo.png',
+  image: '/trahoangdevBlog/static/images/avatar.png',
+  socialBanner: '/trahoangdevBlog/static/images/twitter-card.png',
   email: 'trahoangdev@gmail.com',
   github: 'https://github.com/trahoangdev',
   //twitter: 'https://twitter.com/',
