@@ -67,7 +67,10 @@ module.exports = withContentlayer(
     images: {
       unoptimized: true,
     },
-    basePath: process.env.BASE_PATH || '',
+    // Set basePath for GitHub Pages deployment
+    // For custom domain or root deployment, set to ''
+    basePath: '/trahoangdevBlog',
+    trailingSlash: true,
     async headers() {
       return [
         {

@@ -5,10 +5,7 @@ const siteMetadata = {
   description: 'Blog chia sẻ kiến thức về lập trình mạng, lập trình Java và JavaScript',
   language: 'vi-VN',
   theme: 'system', // system, dark or light
-  // Cập nhật URL này sau khi deploy lên GitHub Pages
-  // Format: https://<username>.github.io/<repository-name>
-  // Ví dụ: https://trahoangdev.github.io/trahoangdevBlog
-  siteUrl: 'https://trahoangdev.github.io/trahoangdevBlog', // TODO: Cập nhật URL GitHub Pages
+  siteUrl: 'https://trahoangdev.github.io/trahoangdevBlog',
   siteRepo: 'https://github.com/trahoangdev/trahoangdevBlog',
   siteLogo: '/static/images/logo.png',
   image: '/static/images/avatar.png',
