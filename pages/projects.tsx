@@ -13,7 +13,8 @@ export default function Projects() {
             Dự Án
           </h1>
           <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            Các dự án và sản phẩm đã thực hiện
+            Portfolio các dự án phát triển phần mềm, từ web applications đến network programming.
+            Mỗi dự án thể hiện kỹ năng kỹ thuật và khả năng giải quyết vấn đề thực tế.
           </p>
         </div>
         <div className="container py-12">
