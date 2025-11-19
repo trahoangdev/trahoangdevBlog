@@ -22,8 +22,11 @@ export default function Footer() {
           <Link href="/">{siteMetadata.title}</Link>
         </div>
         <div className="mb-8 text-sm text-gray-500 dark:text-gray-400">
-          <Link href="https://github.com/trahoangdev/trahoangdevBlog">
-            ~Built with a lot of coffe~
+          <Link
+            href="https://github.com/trahoangdev/trahoangdevBlog"
+            className="hover:text-primary-500 transition-colors"
+          >
+            Built with ❤️ and ☕
           </Link>
         </div>
       </div>

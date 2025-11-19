@@ -20,7 +20,7 @@ const LayoutWrapper = ({ children }: Props) => {
             <Link href="/" aria-label={siteMetadata.headerTitle}>
               <div className="flex items-center justify-between">
                 {typeof siteMetadata.headerTitle === 'string' ? (
-                  <div className="bg-gradient-to-r from-teal-400 to-teal-600 bg-clip-text text-xl font-bold text-transparent dark:from-teal-300 dark:to-teal-500 sm:text-2xl md:text-3xl">
+                  <div className="animate-gradient-x bg-gradient-to-r from-teal-400 via-cyan-500 to-emerald-500 bg-clip-text text-xl font-bold text-transparent dark:from-teal-300 dark:via-cyan-400 dark:to-emerald-400 sm:text-2xl md:text-3xl">
                     {siteMetadata.headerTitle}
                   </div>
                 ) : (
