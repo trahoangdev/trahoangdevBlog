@@ -1,5 +1,4 @@
 import SocialIcon from '@/components/social-icons'
-import Image from '@/components/Image'
 import { PageSEO } from '@/components/SEO'
 import { ReactNode } from 'react'
 import type { Authors } from 'contentlayer/generated'
@@ -14,11 +13,11 @@ export default function AuthorLayout({ children, content }: Props) {
 
   return (
     <>
-      <PageSEO title={`Giới thiệu / Resume - ${name}`} description={`Giới thiệu về ${name}`} />
+      <PageSEO title={`Giới thiệu - ${name}`} description={`Giới thiệu về ${name}`} />
       <div className="divide-y">
         <div className="space-y-2 pt-6 pb-8 md:space-y-5">
           <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
-            Giới thiệu / Resume
+            Giới thiệu
           </h1>
         </div>
         <div className="items-start space-y-2 xl:grid xl:grid-cols-3 xl:gap-x-8 xl:space-y-0">

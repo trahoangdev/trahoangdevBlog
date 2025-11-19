@@ -16,7 +16,7 @@ const LayoutWrapper = ({ children }: Props) => {
   return (
     <>
       <div className="flex min-h-screen flex-col">
-        <header className="sticky top-0 z-40 w-full border-b border-gray-200 bg-white shadow-sm supports-[backdrop-filter]:bg-white/95 supports-[backdrop-filter]:backdrop-blur-md dark:border-gray-800 dark:bg-gray-900 dark:supports-[backdrop-filter]:bg-gray-900/95">
+        <header className="print:hidden sticky top-0 z-40 w-full border-b border-gray-200 bg-white shadow-sm supports-[backdrop-filter]:bg-white/95 supports-[backdrop-filter]:backdrop-blur-md dark:border-gray-800 dark:bg-gray-900 dark:supports-[backdrop-filter]:bg-gray-900/95">
           <div className="mx-auto max-w-3xl px-3 sm:px-6 xl:max-w-5xl xl:px-0">
             <div className="flex items-center justify-between gap-2 py-2.5 sm:gap-4 sm:py-4">
               <div className="min-w-0 flex-1">
