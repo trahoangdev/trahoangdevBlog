@@ -55,12 +55,14 @@ module.exports = {
         DEFAULT: {
           css: {
             color: theme('colors.gray.700'),
+            maxWidth: '100%',
             a: {
               color: theme('colors.primary.500'),
               '&:hover': {
                 color: `${theme('colors.primary.600')} !important`,
               },
               code: { color: theme('colors.primary.400') },
+              wordBreak: 'break-word',
             },
             h1: {
               fontWeight: '700',
@@ -81,6 +83,8 @@ module.exports = {
             },
             pre: {
               backgroundColor: theme('colors.gray.800'),
+              overflowX: 'auto',
+              maxWidth: '100%',
             },
             code: {
               color: theme('colors.pink.500'),
@@ -90,6 +94,7 @@ module.exports = {
               paddingTop: '2px',
               paddingBottom: '2px',
               borderRadius: '0.25rem',
+              wordBreak: 'break-word',
             },
             'code::before': {
               content: 'none',
@@ -118,17 +123,28 @@ module.exports = {
               color: theme('colors.gray.900'),
               borderLeftColor: theme('colors.gray.200'),
             },
+            img: {
+              maxWidth: '100%',
+              height: 'auto',
+            },
+            table: {
+              display: 'block',
+              overflowX: 'auto',
+              maxWidth: '100%',
+            },
           },
         },
         dark: {
           css: {
             color: theme('colors.gray.300'),
+            maxWidth: '100%',
             a: {
               color: theme('colors.primary.500'),
               '&:hover': {
                 color: `${theme('colors.primary.400')} !important`,
               },
               code: { color: theme('colors.primary.400') },
+              wordBreak: 'break-word',
             },
             h1: {
               fontWeight: '700',
@@ -149,9 +165,12 @@ module.exports = {
             },
             pre: {
               backgroundColor: theme('colors.gray.800'),
+              overflowX: 'auto',
+              maxWidth: '100%',
             },
             code: {
               backgroundColor: theme('colors.gray.800'),
+              wordBreak: 'break-word',
             },
             details: {
               backgroundColor: theme('colors.gray.800'),
@@ -178,6 +197,15 @@ module.exports = {
             blockquote: {
               color: theme('colors.gray.100'),
               borderLeftColor: theme('colors.gray.700'),
+            },
+            img: {
+              maxWidth: '100%',
+              height: 'auto',
+            },
+            table: {
+              display: 'block',
+              overflowX: 'auto',
+              maxWidth: '100%',
             },
           },
         },
