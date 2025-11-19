@@ -8,7 +8,7 @@ const siteMetadata = {
   // Cập nhật URL này sau khi deploy lên GitHub Pages
   // Format: https://<username>.github.io/<repository-name>
   // Ví dụ: https://trahoangdev.github.io/trahoangdevBlog
-  siteUrl: 'https://trahoangdevblog.netlify.app', // TODO: Cập nhật URL GitHub Pages
+  siteUrl: 'https://trahoangdev.github.io/trahoangdevBlog', // TODO: Cập nhật URL GitHub Pages
   siteRepo: 'https://github.com/trahoangdev/trahoangdevBlog',
   siteLogo: '/static/images/logo.png',
   image: '/static/images/avatar.png',
