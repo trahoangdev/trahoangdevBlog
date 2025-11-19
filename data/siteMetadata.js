@@ -5,7 +5,10 @@ const siteMetadata = {
   description: 'Blog chia sẻ kiến thức về lập trình mạng, lập trình Java và JavaScript',
   language: 'vi-VN',
   theme: 'system', // system, dark or light
-  siteUrl: 'https://trahoangdevblog.netlify.app',
+  // Cập nhật URL này sau khi deploy lên GitHub Pages
+  // Format: https://<username>.github.io/<repository-name>
+  // Ví dụ: https://trahoangdev.github.io/trahoangdevBlog
+  siteUrl: 'https://trahoangdevblog.netlify.app', // TODO: Cập nhật URL GitHub Pages
   siteRepo: 'https://github.com/trahoangdev/trahoangdevBlog',
   siteLogo: '/static/images/logo.png',
   image: '/static/images/avatar.png',

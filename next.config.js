@@ -67,6 +67,8 @@ module.exports = withContentlayer(
     images: {
       unoptimized: true,
     },
+    output: 'export',
+    basePath: process.env.BASE_PATH || '',
     async headers() {
       return [
         {
