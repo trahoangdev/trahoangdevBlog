@@ -5,8 +5,8 @@ const projectsData = [
     Tích hợp MDX để viết nội dung kỹ thuật, hỗ trợ syntax highlighting, SEO optimization, 
     dark mode và responsive design. Tập trung vào việc chia sẻ kiến thức về Java, JavaScript 
     và Network Programming.`,
-    imgSrc: '/static/images/projects/blog-project.png',
-    href: 'https://trahoangdevblog.netlify.app',
+    imgSrc: '/trahoangdevBlog/static/images/projects/blog-project.png',
+    href: 'https://trahoangdev.github.io/trahoangdevBlog',
   },
   {
     title: 'Java Socket Programming',
@@ -14,7 +14,7 @@ const projectsData = [
     Triển khai các giao thức TCP/IP, xử lý concurrent connections, và quản lý thread pool. 
     Dự án minh họa các khái niệm về network programming, multithreading và exception handling 
     trong Java.`,
-    imgSrc: '/static/images/projects/socket-project.png',
+    imgSrc: '/trahoangdevBlog/static/images/projects/socket-project.png',
     href: '/blog/java-socket-programming',
   },
   {
@@ -22,7 +22,7 @@ const projectsData = [
     description: `Xây dựng RESTful API backend service với Java, triển khai các HTTP methods 
     (GET, POST, PUT, DELETE), authentication, và data validation. Áp dụng design patterns 
     như MVC, Singleton và Factory. Tích hợp database và xử lý JSON data serialization.`,
-    imgSrc: '/static/images/projects/api-project.png',
+    imgSrc: '/trahoangdevBlog/static/images/projects/api-project.png',
     href: '/blog/http-restful-api',
   },
   {
@@ -30,7 +30,7 @@ const projectsData = [
     description: `Dự án demo về asynchronous programming trong JavaScript, sử dụng Promises, 
     Async/Await và Fetch API. Xây dựng ứng dụng web tương tác với external APIs, xử lý 
     error handling và loading states. Minh họa best practices cho modern JavaScript development.`,
-    imgSrc: '/static/images/projects/async-project.png',
+    imgSrc: '/trahoangdevBlog/static/images/projects/async-project.png',
     href: '/blog/javascript-async-await',
   },
   {
@@ -38,7 +38,7 @@ const projectsData = [
     description: `Triển khai các giao thức mạng cơ bản từ đầu để hiểu sâu về network stack. 
     Bao gồm HTTP client/server, TCP handshake simulation, và packet analysis. Dự án giúp 
     nắm vững kiến thức về OSI model, network security và protocol design.`,
-    imgSrc: '/static/images/projects/network-project.png',
+    imgSrc: '/trahoangdevBlog/static/images/projects/network-project.png',
     href: '/blog/network-programming-gioi-thieu',
   },
 ]
