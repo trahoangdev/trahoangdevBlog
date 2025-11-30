@@ -1,0 +1,206 @@
+---
+title: 'SQL - Cơ Sở Dữ Liệu Quan Hệ'
+date: '2025-11-29'
+tags: ['sql', 'database', 'mysql']
+draft: false
+summary: 'Tìm hiểu về SQL và cách làm việc với cơ sở dữ liệu quan hệ.'
+---
+
+## SQL Là Gì?
+
+SQL (Structured Query Language) là ngôn ngữ chuẩn để quản lý và thao tác với cơ sở dữ liệu quan hệ. SQL được sử dụng trong MySQL, PostgreSQL, SQL Server, Oracle, v.v.
+
+## Các Loại Lệnh SQL
+
+- **DDL** (Data Definition Language): CREATE, ALTER, DROP
+- **DML** (Data Manipulation Language): SELECT, INSERT, UPDATE, DELETE
+- **DCL** (Data Control Language): GRANT, REVOKE
+- **TCL** (Transaction Control Language): COMMIT, ROLLBACK
+
+## Tạo Database và Table
+
+```sql
+-- Tạo database
+CREATE DATABASE my_database;
+
+-- Sử dụng database
+USE my_database;
+
+-- Tạo table
+CREATE TABLE users (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    age INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+## INSERT - Thêm Dữ Liệu
+
+```sql
+-- Insert một record
+INSERT INTO users (name, email, age)
+VALUES ('Hoàng Trà', 'tra@example.com', 22);
+
+-- Insert nhiều records
+INSERT INTO users (name, email, age) VALUES
+    ('Nguyễn Văn A', 'a@example.com', 25),
+    ('Trần Thị B', 'b@example.com', 23),
+    ('Lê Văn C', 'c@example.com', 24);
+```
+
+## SELECT - Truy Vấn Dữ Liệu
+
+```sql
+-- Select tất cả
+SELECT * FROM users;
+
+-- Select columns cụ thể
+SELECT name, email FROM users;
+
+-- WHERE clause
+SELECT * FROM users WHERE age > 23;
+
+-- AND, OR operators
+SELECT * FROM users
+WHERE age > 20 AND name LIKE 'Nguyễn%';
+
+-- ORDER BY
+SELECT * FROM users ORDER BY age DESC;
+
+-- LIMIT
+SELECT * FROM users LIMIT 5;
+```
+
+## UPDATE - Cập Nhật Dữ Liệu
+
+```sql
+-- Update một record
+UPDATE users
+SET age = 23
+WHERE id = 1;
+
+-- Update nhiều columns
+UPDATE users
+SET name = 'Hoàng Trọng Trà', age = 22
+WHERE email = 'tra@example.com';
+```
+
+## DELETE - Xóa Dữ Liệu
+
+```sql
+-- Delete record cụ thể
+DELETE FROM users WHERE id = 5;
+
+-- Delete với điều kiện
+DELETE FROM users WHERE age < 18;
+
+-- Delete tất cả (cẩn thận!)
+DELETE FROM users;
+```
+
+## JOIN - Kết Hợp Tables
+
+```sql
+-- Tạo table orders
+CREATE TABLE orders (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT,
+    product VARCHAR(100),
+    amount DECIMAL(10, 2),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- INNER JOIN
+SELECT users.name, orders.product, orders.amount
+FROM users
+INNER JOIN orders ON users.id = orders.user_id;
+
+-- LEFT JOIN
+SELECT users.name, orders.product
+FROM users
+LEFT JOIN orders ON users.id = orders.user_id;
+```
+
+## Aggregate Functions
+
+```sql
+-- COUNT
+SELECT COUNT(*) FROM users;
+
+-- SUM
+SELECT SUM(amount) FROM orders;
+
+-- AVG
+SELECT AVG(age) FROM users;
+
+-- MAX, MIN
+SELECT MAX(age), MIN(age) FROM users;
+
+-- GROUP BY
+SELECT user_id, COUNT(*) as order_count
+FROM orders
+GROUP BY user_id;
+
+-- HAVING
+SELECT user_id, SUM(amount) as total
+FROM orders
+GROUP BY user_id
+HAVING total > 1000;
+```
+
+## Indexes
+
+```sql
+-- Tạo index
+CREATE INDEX idx_email ON users(email);
+
+-- Tạo unique index
+CREATE UNIQUE INDEX idx_username ON users(name);
+
+-- Xóa index
+DROP INDEX idx_email ON users;
+```
+
+## Constraints
+
+```sql
+CREATE TABLE products (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    price DECIMAL(10, 2) CHECK (price > 0),
+    category VARCHAR(50) DEFAULT 'General',
+    sku VARCHAR(50) UNIQUE
+);
+```
+
+## Transactions
+
+```sql
+-- Bắt đầu transaction
+START TRANSACTION;
+
+-- Thực hiện các operations
+UPDATE accounts SET balance = balance - 100 WHERE id = 1;
+UPDATE accounts SET balance = balance + 100 WHERE id = 2;
+
+-- Commit nếu thành công
+COMMIT;
+
+-- Hoặc rollback nếu có lỗi
+ROLLBACK;
+```
+
+## Best Practices
+
+1. **Sử dụng indexes**: Tăng tốc độ query
+2. **Tránh SELECT \***: Chỉ select columns cần thiết
+3. **Sử dụng prepared statements**: Tránh SQL injection
+4. **Normalize database**: Giảm redundancy
+5. **Backup thường xuyên**: Bảo vệ dữ liệu
+6. **Sử dụng transactions**: Đảm bảo data integrity
+
+## Kết Luận
+
+SQL là kỹ năng quan trọng cho mọi developer. Việc thành thạo SQL giúp bạn làm việc hiệu quả với dữ liệu và xây dựng ứng dụng tốt hơn.

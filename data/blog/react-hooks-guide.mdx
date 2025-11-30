@@ -1,0 +1,343 @@
+---
+title: 'React Hooks - Hướng Dẫn Chi Tiết'
+date: '2025-11-27'
+tags: ['react', 'javascript', 'hooks']
+draft: false
+summary: 'Tìm hiểu về React Hooks và cách sử dụng để xây dựng components hiệu quả.'
+---
+
+## React Hooks Là Gì?
+
+React Hooks là các functions cho phép bạn sử dụng state và các tính năng khác của React trong functional components. Hooks được giới thiệu từ React 16.8.
+
+## useState Hook
+
+Hook cơ bản nhất để quản lý state trong component.
+
+```jsx
+import { useState } from 'react'
+
+function Counter() {
+  const [count, setCount] = useState(0)
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Tăng</button>
+      <button onClick={() => setCount(count - 1)}>Giảm</button>
+      <button onClick={() => setCount(0)}>Reset</button>
+    </div>
+  )
+}
+```
+
+### State với Object
+
+```jsx
+function UserForm() {
+  const [user, setUser] = useState({
+    name: '',
+    email: '',
+    age: 0,
+  })
+
+  const handleChange = (e) => {
+    setUser({
+      ...user,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  return (
+    <form>
+      <input name="name" value={user.name} onChange={handleChange} placeholder="Tên" />
+      <input name="email" value={user.email} onChange={handleChange} placeholder="Email" />
+    </form>
+  )
+}
+```
+
+## useEffect Hook
+
+Hook để xử lý side effects như gọi API, subscriptions, timers.
+
+```jsx
+import { useState, useEffect } from 'react'
+
+function UserProfile({ userId }) {
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    // Gọi API khi component mount hoặc userId thay đổi
+    async function fetchUser() {
+      setLoading(true)
+      try {
+        const response = await fetch(`/api/users/${userId}`)
+        const data = await response.json()
+        setUser(data)
+      } catch (error) {
+        console.error('Error:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchUser()
+  }, [userId]) // Dependency array
+
+  if (loading) return <div>Loading...</div>
+  if (!user) return <div>User not found</div>
+
+  return (
+    <div>
+      <h2>{user.name}</h2>
+      <p>{user.email}</p>
+    </div>
+  )
+}
+```
+
+### Cleanup Function
+
+```jsx
+function Timer() {
+  const [seconds, setSeconds] = useState(0)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setSeconds((s) => s + 1)
+    }, 1000)
+
+    // Cleanup function
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
+
+  return <div>Seconds: {seconds}</div>
+}
+```
+
+## useContext Hook
+
+Hook để sử dụng Context API, chia sẻ data giữa các components.
+
+```jsx
+import { createContext, useContext, useState } from 'react'
+
+// Tạo Context
+const ThemeContext = createContext()
+
+// Provider Component
+function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState('light')
+
+  const toggleTheme = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light')
+  }
+
+  return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>
+}
+
+// Component sử dụng Context
+function ThemedButton() {
+  const { theme, toggleTheme } = useContext(ThemeContext)
+
+  return (
+    <button
+      onClick={toggleTheme}
+      style={{
+        background: theme === 'light' ? '#fff' : '#333',
+        color: theme === 'light' ? '#333' : '#fff',
+      }}
+    >
+      Toggle Theme
+    </button>
+  )
+}
+
+// App Component
+function App() {
+  return (
+    <ThemeProvider>
+      <ThemedButton />
+    </ThemeProvider>
+  )
+}
+```
+
+## useRef Hook
+
+Hook để tạo reference đến DOM elements hoặc lưu giá trị không trigger re-render.
+
+```jsx
+import { useRef, useEffect } from 'react'
+
+function FocusInput() {
+  const inputRef = useRef(null)
+
+  useEffect(() => {
+    // Focus vào input khi component mount
+    inputRef.current.focus()
+  }, [])
+
+  return <input ref={inputRef} type="text" placeholder="Auto focus" />
+}
+```
+
+### Lưu Previous Value
+
+```jsx
+function Counter() {
+  const [count, setCount] = useState(0)
+  const prevCountRef = useRef()
+
+  useEffect(() => {
+    prevCountRef.current = count
+  })
+
+  const prevCount = prevCountRef.current
+
+  return (
+    <div>
+      <p>Current: {count}</p>
+      <p>Previous: {prevCount}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  )
+}
+```
+
+## useMemo Hook
+
+Hook để memoize expensive calculations.
+
+```jsx
+import { useState, useMemo } from 'react'
+
+function ExpensiveComponent({ numbers }) {
+  const [filter, setFilter] = useState('')
+
+  // Chỉ tính toán lại khi numbers hoặc filter thay đổi
+  const filteredNumbers = useMemo(() => {
+    console.log('Filtering...')
+    return numbers.filter((n) => n.toString().includes(filter))
+  }, [numbers, filter])
+
+  return (
+    <div>
+      <input
+        value={filter}
+        onChange={(e) => setFilter(e.target.value)}
+        placeholder="Filter numbers"
+      />
+      <ul>
+        {filteredNumbers.map((n) => (
+          <li key={n}>{n}</li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+```
+
+## useCallback Hook
+
+Hook để memoize functions, tránh tạo function mới mỗi lần render.
+
+```jsx
+import { useState, useCallback } from 'react'
+
+function TodoList() {
+  const [todos, setTodos] = useState([])
+
+  // Function được memoize
+  const addTodo = useCallback((text) => {
+    setTodos((prevTodos) => [
+      ...prevTodos,
+      {
+        id: Date.now(),
+        text,
+        completed: false,
+      },
+    ])
+  }, [])
+
+  const toggleTodo = useCallback((id) => {
+    setTodos((prevTodos) =>
+      prevTodos.map((todo) => (todo.id === id ? { ...todo, completed: !todo.completed } : todo))
+    )
+  }, [])
+
+  return (
+    <div>
+      <TodoForm onAdd={addTodo} />
+      <TodoItems todos={todos} onToggle={toggleTodo} />
+    </div>
+  )
+}
+```
+
+## Custom Hooks
+
+Tạo hooks riêng để tái sử dụng logic.
+
+```jsx
+// useLocalStorage Hook
+function useLocalStorage(key, initialValue) {
+  const [value, setValue] = useState(() => {
+    try {
+      const item = window.localStorage.getItem(key)
+      return item ? JSON.parse(item) : initialValue
+    } catch (error) {
+      return initialValue
+    }
+  })
+
+  const setStoredValue = (newValue) => {
+    try {
+      setValue(newValue)
+      window.localStorage.setItem(key, JSON.stringify(newValue))
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  return [value, setStoredValue]
+}
+
+// Sử dụng custom hook
+function App() {
+  const [name, setName] = useLocalStorage('name', '')
+
+  return <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" />
+}
+```
+
+## Rules of Hooks
+
+1. **Chỉ gọi Hooks ở top level**: Không gọi trong loops, conditions, hoặc nested functions
+2. **Chỉ gọi Hooks trong React functions**: Functional components hoặc custom Hooks
+
+```jsx
+// ❌ Sai
+function BadComponent() {
+  if (condition) {
+    const [state, setState] = useState(0) // Sai!
+  }
+}
+
+// ✅ Đúng
+function GoodComponent() {
+  const [state, setState] = useState(0)
+
+  if (condition) {
+    // Sử dụng state ở đây
+  }
+}
+```
+
+## Kết Luận
+
+React Hooks giúp code ngắn gọn, dễ đọc và tái sử dụng hơn. Việc nắm vững các hooks cơ bản và biết cách tạo custom hooks sẽ giúp bạn xây dựng React applications hiệu quả.

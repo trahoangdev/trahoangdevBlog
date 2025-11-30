@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import Link from '@/components/Link'
 import { PageSEO } from '@/components/SEO'
 import Tag from '@/components/Tag'
@@ -16,6 +17,13 @@ export const getStaticProps: GetStaticProps<{ tags: Record<string, number> }> = 
 }
 
 export default function Tags({ tags }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 300)
+    return () => clearTimeout(timer)
+  }, [])
+
   const sortedTags = Object.keys(tags).sort((a, b) => tags[b] - tags[a])
   return (
     <>
@@ -27,20 +35,27 @@ export default function Tags({ tags }: InferGetStaticPropsType<typeof getStaticP
           </h1>
         </div>
         <div className="flex max-w-lg flex-wrap">
-          {Object.keys(tags).length === 0 && 'Không tìm thấy thẻ nào.'}
-          {sortedTags.map((t) => {
-            return (
-              <div key={t} className="mt-2 mb-2 mr-5">
-                <Tag text={t} />
-                <Link
-                  href={`/tags/${kebabCase(t)}`}
-                  className="-ml-2 text-sm font-semibold uppercase text-gray-600 dark:text-gray-300"
-                >
-                  {` (${tags[t]})`}
-                </Link>
-              </div>
-            )
-          })}
+          {loading
+            ? Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className="mt-2 mb-2 mr-5 animate-pulse">
+                  <div className="h-8 w-24 rounded-full bg-gray-200 dark:bg-gray-700" />
+                </div>
+              ))
+            : Object.keys(tags).length === 0
+            ? 'Không tìm thấy thẻ nào.'
+            : sortedTags.map((t) => {
+                return (
+                  <div key={t} className="mt-2 mb-2 mr-5">
+                    <Tag text={t} />
+                    <Link
+                      href={`/tags/${kebabCase(t)}`}
+                      className="-ml-2 text-sm font-semibold uppercase text-gray-600 dark:text-gray-300"
+                    >
+                      {` (${tags[t]})`}
+                    </Link>
+                  </div>
+                )
+              })}
         </div>
       </div>
     </>

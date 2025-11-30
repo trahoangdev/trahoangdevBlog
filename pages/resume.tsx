@@ -1,9 +1,41 @@
+import { useState, useEffect } from 'react'
 import siteMetadata from '@/data/siteMetadata'
 import { PageSEO } from '@/components/SEO'
 import SocialIcon from '@/components/social-icons'
 import Link from '@/components/Link'
+import { SkeletonContent } from '@/components/SkeletonLoader'
 
 export default function Resume() {
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 300)
+    return () => clearTimeout(timer)
+  }, [])
+
+  if (loading) {
+    return (
+      <>
+        <PageSEO
+          title={`Resume - ${siteMetadata.author}`}
+          description={`Resume / CV của ${siteMetadata.author}`}
+        />
+        <div className="divide-y divide-gray-200 dark:divide-gray-700">
+          <div className="space-y-2 pt-6 pb-8 md:space-y-5">
+            <div className="h-12 w-48 animate-pulse rounded bg-gray-200 dark:bg-gray-700" />
+            <div className="h-6 w-96 animate-pulse rounded bg-gray-200 dark:bg-gray-700" />
+          </div>
+          <div className="prose max-w-none pt-8 pb-8 dark:prose-dark xl:col-span-2">
+            <SkeletonContent />
+            <div className="mt-8">
+              <SkeletonContent />
+            </div>
+          </div>
+        </div>
+      </>
+    )
+  }
+
   return (
     <>
       <PageSEO
@@ -24,9 +56,7 @@ export default function Resume() {
           {/* Contact Info */}
           <div className="mb-8 rounded-lg border-2 border-gray-200 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-800">
             <h2 className="mt-0 text-2xl font-bold">{siteMetadata.author}</h2>
-            <p className="mb-3 text-gray-600 dark:text-gray-400">
-              Software Engineer | Full-stack Developer
-            </p>
+            <p className="mb-3 text-gray-600 dark:text-gray-400">Software Engineer | Developer</p>
             <div className="flex items-center gap-3">
               <SocialIcon kind="mail" href={`mailto:${siteMetadata.email}`} size={6} />
               <SocialIcon kind="github" href={siteMetadata.github} size={6} />
@@ -121,25 +151,13 @@ export default function Resume() {
           <section className="mb-6">
             <h2>Mục Tiêu Nghề Nghiệp</h2>
             <p>
-              Tìm kiếm vị trí Junior Backend Developer hoặc Full-stack Developer để áp dụng kiến
-              thức đã học và phát triển kỹ năng thực tế. Mong muốn làm việc trong môi trường năng
-              động, học hỏi từ senior developers và đóng góp vào các dự án có ý nghĩa. Định hướng
-              dài hạn là trở thành Backend Engineer chuyên sâu về Distributed Systems và Network
+              Tìm kiếm vị trí Junior Backend Developer hoặc Frontend Developer để áp dụng kiến thức
+              đã học và phát triển kỹ năng thực tế. Mong muốn làm việc trong môi trường năng động,
+              học hỏi từ senior developers và đóng góp vào các dự án có ý nghĩa. Định hướng dài hạn
+              là trở thành Backend Engineer chuyên sâu về Distributed Systems và Network
               Programming.
             </p>
           </section>
-
-          {/* Download Resume */}
-          <div className="mt-8 rounded-lg border-2 border-primary-500 bg-primary-50 p-6 text-center dark:bg-primary-900/20 print:hidden">
-            <h3 className="mt-0">Tải Resume PDF</h3>
-            <p className="mb-4">Bạn có thể tải xuống phiên bản PDF của resume để xem offline</p>
-            <button
-              onClick={() => window.print()}
-              className="rounded-lg bg-primary-500 px-6 py-3 font-semibold text-white transition-colors hover:bg-primary-600"
-            >
-              📄 In / Lưu PDF
-            </button>
-          </div>
         </div>
       </div>
 
