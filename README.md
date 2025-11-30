@@ -93,7 +93,7 @@ Hoặc kết nối repository với Netlify Dashboard để tự động deploy 
 
 ## License
 
-MIT License - Dựa trên [Tailwind Nextjs Starter Blog](https://github.com/timlrx/tailwind-nextjs-starter-blog) template
+MIT License
 
 ---
 

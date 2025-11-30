@@ -1,0 +1,422 @@
+---
+title: 'TypeScript - JavaScript với Type Safety'
+date: '2025-11-28'
+tags: ['typescript', 'javascript', 'programming']
+draft: false
+summary: 'Tìm hiểu về TypeScript và cách sử dụng type system để viết code an toàn hơn.'
+---
+
+## TypeScript Là Gì?
+
+TypeScript là superset của JavaScript, thêm static typing và các tính năng hiện đại. Code TypeScript được compile thành JavaScript để chạy trên mọi môi trường.
+
+## Tại Sao Nên Dùng TypeScript?
+
+- **Type Safety**: Phát hiện lỗi ngay khi compile
+- **Better IDE Support**: Autocomplete, refactoring tốt hơn
+- **Self-documenting**: Types là documentation
+- **Easier Refactoring**: Thay đổi code an toàn hơn
+- **Modern Features**: ES6+ features với backward compatibility
+
+## Cài Đặt và Setup
+
+```bash
+# Cài đặt TypeScript
+npm install -g typescript
+
+# Kiểm tra version
+tsc --version
+
+# Tạo tsconfig.json
+tsc --init
+
+# Compile TypeScript file
+tsc index.ts
+
+# Watch mode
+tsc --watch
+```
+
+## Basic Types
+
+### Primitive Types
+
+```typescript
+// String
+let name: string = 'Hoàng Trà'
+
+// Number
+let age: number = 22
+let price: number = 99.99
+
+// Boolean
+let isStudent: boolean = true
+
+// Null và Undefined
+let nothing: null = null
+let notDefined: undefined = undefined
+
+// Any (tránh dùng)
+let anything: any = 'có thể là gì cũng được'
+```
+
+### Arrays
+
+```typescript
+// Array of numbers
+let numbers: number[] = [1, 2, 3, 4, 5]
+
+// Array of strings (cách khác)
+let names: Array<string> = ['An', 'Bình', 'Chi']
+
+// Mixed array (tuple)
+let person: [string, number] = ['Hoàng', 22]
+```
+
+### Objects
+
+```typescript
+// Object type
+let user: {
+  name: string
+  age: number
+  email?: string // Optional property
+} = {
+  name: 'Hoàng Trà',
+  age: 22,
+}
+
+// Interface
+interface User {
+  id: number
+  name: string
+  email: string
+  isActive?: boolean
+}
+
+let newUser: User = {
+  id: 1,
+  name: 'Nguyễn Văn A',
+  email: 'a@example.com',
+}
+```
+
+## Functions
+
+### Function Types
+
+```typescript
+// Function với typed parameters và return type
+function add(a: number, b: number): number {
+  return a + b
+}
+
+// Arrow function
+const multiply = (a: number, b: number): number => {
+  return a * b
+}
+
+// Optional parameters
+function greet(name: string, greeting?: string): string {
+  return `${greeting || 'Hello'}, ${name}!`
+}
+
+// Default parameters
+function createUser(name: string, role: string = 'user'): void {
+  console.log(`Created ${role}: ${name}`)
+}
+
+// Rest parameters
+function sum(...numbers: number[]): number {
+  return numbers.reduce((total, n) => total + n, 0)
+}
+```
+
+## Interfaces và Types
+
+### Interface
+
+```typescript
+interface Product {
+  id: number
+  name: string
+  price: number
+  description?: string
+}
+
+interface CartItem extends Product {
+  quantity: number
+}
+
+const item: CartItem = {
+  id: 1,
+  name: 'Laptop',
+  price: 1000,
+  quantity: 2,
+}
+```
+
+### Type Alias
+
+```typescript
+type ID = string | number
+
+type User = {
+  id: ID
+  name: string
+  email: string
+}
+
+type Admin = User & {
+  role: 'admin'
+  permissions: string[]
+}
+
+const admin: Admin = {
+  id: 1,
+  name: 'Admin User',
+  email: 'admin@example.com',
+  role: 'admin',
+  permissions: ['read', 'write', 'delete'],
+}
+```
+
+## Union và Intersection Types
+
+### Union Types
+
+```typescript
+// Có thể là string hoặc number
+type StringOrNumber = string | number
+
+function printId(id: StringOrNumber): void {
+  if (typeof id === 'string') {
+    console.log(`ID: ${id.toUpperCase()}`)
+  } else {
+    console.log(`ID: ${id}`)
+  }
+}
+
+printId('abc123')
+printId(123)
+```
+
+### Intersection Types
+
+```typescript
+type Person = {
+  name: string
+  age: number
+}
+
+type Employee = {
+  employeeId: number
+  department: string
+}
+
+type Staff = Person & Employee
+
+const staff: Staff = {
+  name: 'Hoàng Trà',
+  age: 22,
+  employeeId: 1001,
+  department: 'IT',
+}
+```
+
+## Generics
+
+Generics cho phép tạo reusable components với nhiều types.
+
+```typescript
+// Generic function
+function identity<T>(arg: T): T {
+  return arg
+}
+
+let output1 = identity<string>('hello')
+let output2 = identity<number>(42)
+
+// Generic interface
+interface ApiResponse<T> {
+  data: T
+  status: number
+  message: string
+}
+
+interface User {
+  id: number
+  name: string
+}
+
+const response: ApiResponse<User> = {
+  data: { id: 1, name: 'Hoàng' },
+  status: 200,
+  message: 'Success',
+}
+
+// Generic class
+class DataStore<T> {
+  private data: T[] = []
+
+  add(item: T): void {
+    this.data.push(item)
+  }
+
+  get(index: number): T | undefined {
+    return this.data[index]
+  }
+
+  getAll(): T[] {
+    return this.data
+  }
+}
+
+const numberStore = new DataStore<number>()
+numberStore.add(1)
+numberStore.add(2)
+```
+
+## Enums
+
+```typescript
+// Numeric enum
+enum Status {
+  Pending,
+  Approved,
+  Rejected,
+}
+
+let orderStatus: Status = Status.Pending
+
+// String enum
+enum Role {
+  Admin = 'ADMIN',
+  User = 'USER',
+  Guest = 'GUEST',
+}
+
+function checkPermission(role: Role): boolean {
+  return role === Role.Admin
+}
+```
+
+## Type Assertions
+
+```typescript
+// Type assertion
+let someValue: any = 'this is a string'
+let strLength: number = (someValue as string).length
+
+// Hoặc
+let strLength2: number = (<string>someValue).length
+
+// Non-null assertion
+function getValue(): string | null {
+  return 'value'
+}
+
+let value = getValue()! // Assert không null
+```
+
+## Classes
+
+```typescript
+class Animal {
+  private name: string
+  protected age: number
+
+  constructor(name: string, age: number) {
+    this.name = name
+    this.age = age
+  }
+
+  public makeSound(): void {
+    console.log('Some sound')
+  }
+
+  protected getAge(): number {
+    return this.age
+  }
+}
+
+class Dog extends Animal {
+  private breed: string
+
+  constructor(name: string, age: number, breed: string) {
+    super(name, age)
+    this.breed = breed
+  }
+
+  public makeSound(): void {
+    console.log('Woof! Woof!')
+  }
+
+  public getInfo(): string {
+    return `${this.breed}, ${this.getAge()} years old`
+  }
+}
+
+const dog = new Dog('Buddy', 3, 'Golden Retriever')
+dog.makeSound()
+```
+
+## Utility Types
+
+TypeScript cung cấp nhiều utility types hữu ích.
+
+```typescript
+interface User {
+  id: number
+  name: string
+  email: string
+  age: number
+}
+
+// Partial - tất cả properties optional
+type PartialUser = Partial<User>
+
+// Required - tất cả properties required
+type RequiredUser = Required<User>
+
+// Pick - chọn một số properties
+type UserPreview = Pick<User, 'id' | 'name'>
+
+// Omit - loại bỏ một số properties
+type UserWithoutEmail = Omit<User, 'email'>
+
+// Readonly - không thể modify
+type ReadonlyUser = Readonly<User>
+
+// Record - tạo object type
+type UserRoles = Record<string, string>
+const roles: UserRoles = {
+  admin: 'Administrator',
+  user: 'Regular User',
+}
+```
+
+## Best Practices
+
+1. **Tránh dùng `any`**: Sử dụng `unknown` nếu không biết type
+2. **Sử dụng strict mode**: Enable trong tsconfig.json
+3. **Prefer interfaces cho objects**: Dễ extend hơn
+4. **Sử dụng type aliases cho unions**: Dễ đọc hơn
+5. **Explicit return types**: Rõ ràng hơn cho functions
+6. **Readonly khi có thể**: Tránh mutations không mong muốn
+
+```json
+// tsconfig.json
+{
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true
+  }
+}
+```
+
+## Kết Luận
+
+TypeScript giúp code JavaScript an toàn và dễ maintain hơn. Đầu tư thời gian học TypeScript sẽ giúp bạn viết code chất lượng cao hơn và giảm bugs trong production.

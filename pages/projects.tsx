@@ -1,9 +1,17 @@
+import { useState, useEffect } from 'react'
 import siteMetadata from '@/data/siteMetadata'
 import projectsData from '@/data/projectsData'
 import Card from '@/components/Card'
 import { PageSEO } from '@/components/SEO'
+import { SkeletonProject } from '@/components/SkeletonLoader'
 
 export default function Projects() {
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 500)
+    return () => clearTimeout(timer)
+  }, [])
   return (
     <>
       <PageSEO title={`Dự Án - ${siteMetadata.author}`} description={siteMetadata.description} />
@@ -19,15 +27,21 @@ export default function Projects() {
         </div>
         <div className="container py-12">
           <div className="-m-4 flex flex-wrap">
-            {projectsData.map((d) => (
-              <Card
-                key={d.title}
-                title={d.title}
-                description={d.description}
-                imgSrc={d.imgSrc}
-                href={d.href}
-              />
-            ))}
+            {loading
+              ? Array.from({ length: 4 }).map((_, i) => (
+                  <div key={i} className="w-full p-4 md:w-1/2">
+                    <SkeletonProject />
+                  </div>
+                ))
+              : projectsData.map((d) => (
+                  <Card
+                    key={d.title}
+                    title={d.title}
+                    description={d.description}
+                    imgSrc={d.imgSrc}
+                    href={d.href}
+                  />
+                ))}
           </div>
         </div>
       </div>

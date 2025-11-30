@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import Link from '@/components/Link'
 import { PageSEO } from '@/components/SEO'
 import Tag from '@/components/Tag'
@@ -7,6 +8,7 @@ import { sortedBlogPost, allCoreContent } from '@/lib/utils/contentlayer'
 import { InferGetStaticPropsType } from 'next'
 import NewsletterForm from '@/components/NewsletterForm'
 import { allBlogs } from 'contentlayer/generated'
+import { SkeletonCard } from '@/components/SkeletonLoader'
 
 const MAX_DISPLAY = 5
 
@@ -19,6 +21,13 @@ export const getStaticProps = async () => {
 }
 
 export default function Home({ posts }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 400)
+    return () => clearTimeout(timer)
+  }, [])
+
   return (
     <>
       <PageSEO title={siteMetadata.title} description={siteMetadata.description} />
@@ -32,55 +41,62 @@ export default function Home({ posts }: InferGetStaticPropsType<typeof getStatic
           </p>
         </div>
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-          {!posts.length && 'Chưa có bài viết nào.'}
-          {posts.slice(0, MAX_DISPLAY).map((post) => {
-            const { slug, date, title, summary, tags } = post
-            return (
-              <li key={slug} className="px-2 py-8 md:px-0 md:py-12">
-                <article>
-                  <div className="space-y-3 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
-                    <dl>
-                      <dt className="sr-only">Published on</dt>
-                      <dd className="text-sm font-medium leading-6 text-gray-500 dark:text-gray-400 md:text-base">
-                        <time dateTime={date}>{formatDate(date)}</time>
-                      </dd>
-                    </dl>
-                    <div className="space-y-4 xl:col-span-3">
-                      <div className="space-y-4">
-                        <div>
-                          <h2 className="text-xl font-bold leading-7 tracking-tight sm:text-2xl sm:leading-8">
+          {loading
+            ? Array.from({ length: MAX_DISPLAY }).map((_, i) => (
+                <li key={i} className="px-2 py-8 md:px-0 md:py-12">
+                  <SkeletonCard />
+                </li>
+              ))
+            : !posts.length
+            ? 'Chưa có bài viết nào.'
+            : posts.slice(0, MAX_DISPLAY).map((post) => {
+                const { slug, date, title, summary, tags } = post
+                return (
+                  <li key={slug} className="px-2 py-8 md:px-0 md:py-12">
+                    <article>
+                      <div className="space-y-3 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
+                        <dl>
+                          <dt className="sr-only">Published on</dt>
+                          <dd className="text-sm font-medium leading-6 text-gray-500 dark:text-gray-400 md:text-base">
+                            <time dateTime={date}>{formatDate(date)}</time>
+                          </dd>
+                        </dl>
+                        <div className="space-y-4 xl:col-span-3">
+                          <div className="space-y-4">
+                            <div>
+                              <h2 className="text-xl font-bold leading-7 tracking-tight sm:text-2xl sm:leading-8">
+                                <Link
+                                  href={`/blog/${slug}`}
+                                  className="text-gray-900 transition-colors hover:text-primary-500 dark:text-gray-100 dark:hover:text-primary-400"
+                                >
+                                  {title}
+                                </Link>
+                              </h2>
+                              <div className="flex flex-wrap gap-1">
+                                {tags.map((tag) => (
+                                  <Tag key={tag} text={tag} />
+                                ))}
+                              </div>
+                            </div>
+                            <div className="prose max-w-none text-sm text-gray-500 dark:text-gray-400 sm:text-base">
+                              {summary}
+                            </div>
+                          </div>
+                          <div className="text-sm font-medium leading-6 sm:text-base">
                             <Link
                               href={`/blog/${slug}`}
-                              className="text-gray-900 transition-colors hover:text-primary-500 dark:text-gray-100 dark:hover:text-primary-400"
+                              className="text-primary-500 transition-colors hover:text-primary-600 dark:hover:text-primary-400"
+                              aria-label={`Đọc "${title}"`}
                             >
-                              {title}
+                              Đọc thêm &rarr;
                             </Link>
-                          </h2>
-                          <div className="flex flex-wrap gap-1">
-                            {tags.map((tag) => (
-                              <Tag key={tag} text={tag} />
-                            ))}
                           </div>
                         </div>
-                        <div className="prose max-w-none text-sm text-gray-500 dark:text-gray-400 sm:text-base">
-                          {summary}
-                        </div>
                       </div>
-                      <div className="text-sm font-medium leading-6 sm:text-base">
-                        <Link
-                          href={`/blog/${slug}`}
-                          className="text-primary-500 transition-colors hover:text-primary-600 dark:hover:text-primary-400"
-                          aria-label={`Đọc "${title}"`}
-                        >
-                          Đọc thêm &rarr;
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              </li>
-            )
-          })}
+                    </article>
+                  </li>
+                )
+              })}
         </ul>
       </div>
       {posts.length > MAX_DISPLAY && (

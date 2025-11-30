@@ -1,0 +1,230 @@
+---
+title: 'Git - Quản Lý Phiên Bản Hiệu Quả'
+date: '2025-11-26'
+tags: ['git', 'version-control', 'github']
+draft: false
+summary: 'Hướng dẫn sử dụng Git để quản lý source code và làm việc nhóm hiệu quả.'
+---
+
+## Git Là Gì?
+
+Git là hệ thống quản lý phiên bản phân tán (Distributed Version Control System) phổ biến nhất hiện nay. Git giúp theo dõi thay đổi trong source code và hỗ trợ làm việc nhóm.
+
+## Cài Đặt và Cấu Hình
+
+```bash
+# Kiểm tra version
+git --version
+
+# Cấu hình thông tin cá nhân
+git config --global user.name "Tên của bạn"
+git config --global user.email "email@example.com"
+
+# Xem cấu hình
+git config --list
+```
+
+## Các Lệnh Cơ Bản
+
+### Khởi Tạo Repository
+
+```bash
+# Tạo repo mới
+git init
+
+# Clone repo có sẵn
+git clone https://github.com/username/repo.git
+```
+
+### Working với Files
+
+```bash
+# Kiểm tra trạng thái
+git status
+
+# Thêm file vào staging area
+git add file.txt
+git add .  # Thêm tất cả files
+
+# Commit changes
+git commit -m "Mô tả thay đổi"
+
+# Xem lịch sử commits
+git log
+git log --oneline  # Hiển thị gọn
+```
+
+## Branching và Merging
+
+### Làm Việc với Branches
+
+```bash
+# Tạo branch mới
+git branch feature-login
+
+# Chuyển sang branch khác
+git checkout feature-login
+
+# Tạo và chuyển sang branch mới (shortcut)
+git checkout -b feature-register
+
+# Liệt kê branches
+git branch
+
+# Xóa branch
+git branch -d feature-login
+```
+
+### Merge Branches
+
+```bash
+# Chuyển về main branch
+git checkout main
+
+# Merge feature branch vào main
+git merge feature-login
+
+# Xử lý conflicts (nếu có)
+# 1. Mở file có conflict
+# 2. Sửa conflicts
+# 3. git add <file>
+# 4. git commit
+```
+
+## Remote Repository
+
+### Làm Việc với GitHub
+
+```bash
+# Thêm remote repository
+git remote add origin https://github.com/username/repo.git
+
+# Xem remote repositories
+git remote -v
+
+# Push code lên remote
+git push origin main
+
+# Pull code từ remote
+git pull origin main
+
+# Fetch changes (không merge)
+git fetch origin
+```
+
+## Git Workflow Phổ Biến
+
+### Feature Branch Workflow
+
+```bash
+# 1. Tạo branch mới cho feature
+git checkout -b feature/user-authentication
+
+# 2. Làm việc và commit
+git add .
+git commit -m "Add login functionality"
+
+# 3. Push lên remote
+git push origin feature/user-authentication
+
+# 4. Tạo Pull Request trên GitHub
+# 5. Review và merge vào main
+```
+
+## Các Lệnh Hữu Ích
+
+### Undo Changes
+
+```bash
+# Discard changes trong working directory
+git checkout -- file.txt
+
+# Unstage file
+git reset HEAD file.txt
+
+# Undo commit (giữ changes)
+git reset --soft HEAD~1
+
+# Undo commit (xóa changes)
+git reset --hard HEAD~1
+
+# Revert commit (tạo commit mới)
+git revert <commit-hash>
+```
+
+### Stash Changes
+
+```bash
+# Lưu changes tạm thời
+git stash
+
+# Xem danh sách stash
+git stash list
+
+# Apply stash
+git stash apply
+
+# Apply và xóa stash
+git stash pop
+```
+
+## .gitignore
+
+File `.gitignore` giúp loại trừ files không cần track.
+
+```gitignore
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+.env.local
+
+# Build output
+dist/
+build/
+
+# IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+```
+
+## Best Practices
+
+1. **Commit thường xuyên**: Commit nhỏ, có ý nghĩa
+2. **Viết commit message rõ ràng**: Mô tả chính xác thay đổi
+3. **Sử dụng branches**: Mỗi feature một branch
+4. **Pull trước khi push**: Tránh conflicts
+5. **Review code**: Sử dụng Pull Requests
+6. **Không commit sensitive data**: Sử dụng .gitignore
+
+## Commit Message Convention
+
+```bash
+# Format: <type>: <subject>
+
+# Types:
+feat: Thêm feature mới
+fix: Sửa bug
+docs: Cập nhật documentation
+style: Format code (không ảnh hưởng logic)
+refactor: Refactor code
+test: Thêm tests
+chore: Cập nhật build tasks, configs
+
+# Examples:
+git commit -m "feat: add user login functionality"
+git commit -m "fix: resolve null pointer exception in UserService"
+git commit -m "docs: update README with installation guide"
+```
+
+## Kết Luận
+
+Git là công cụ không thể thiếu cho mọi developer. Việc thành thạo Git giúp bạn làm việc hiệu quả hơn, đặc biệt khi làm việc nhóm.

@@ -1,10 +1,11 @@
 import Link from '@/components/Link'
 import Tag from '@/components/Tag'
-import { ComponentProps, useState } from 'react'
+import { ComponentProps, useState, useEffect } from 'react'
 import Pagination from '@/components/Pagination'
 import formatDate from '@/lib/utils/formatDate'
 import { CoreContent } from '@/lib/utils/contentlayer'
 import type { Blog } from 'contentlayer/generated'
+import { SkeletonCard } from '@/components/SkeletonLoader'
 
 interface Props {
   posts: CoreContent<Blog>[]
@@ -15,6 +16,13 @@ interface Props {
 
 export default function ListLayout({ posts, title, initialDisplayPosts = [], pagination }: Props) {
   const [searchValue, setSearchValue] = useState('')
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 300)
+    return () => clearTimeout(timer)
+  }, [])
+
   const filteredBlogPosts = posts.filter((post) => {
     const searchContent = post.title + post.summary + post.tags.join(' ')
     return searchContent.toLowerCase().includes(searchValue.toLowerCase())
@@ -56,42 +64,49 @@ export default function ListLayout({ posts, title, initialDisplayPosts = [], pag
           </div>
         </div>
         <ul>
-          {!filteredBlogPosts.length && 'Không tìm thấy bài viết nào.'}
-          {displayPosts.map((post) => {
-            const { slug, date, title, summary, tags } = post
-            return (
-              <li key={slug} className="px-2 py-6 md:px-0">
-                <article className="space-y-3 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
-                  <dl>
-                    <dt className="sr-only">Published on</dt>
-                    <dd className="text-sm font-medium leading-6 text-gray-500 dark:text-gray-400 md:text-base">
-                      <time dateTime={date}>{formatDate(date)}</time>
-                    </dd>
-                  </dl>
-                  <div className="space-y-3 xl:col-span-3">
-                    <div>
-                      <h3 className="text-xl font-bold leading-7 tracking-tight sm:text-2xl sm:leading-8">
-                        <Link
-                          href={`/blog/${slug}`}
-                          className="text-gray-900 transition-colors hover:text-primary-500 dark:text-gray-100 dark:hover:text-primary-400"
-                        >
-                          {title}
-                        </Link>
-                      </h3>
-                      <div className="flex flex-wrap gap-1">
-                        {tags.map((tag) => (
-                          <Tag key={tag} text={tag} />
-                        ))}
+          {loading
+            ? Array.from({ length: 5 }).map((_, i) => (
+                <li key={i} className="px-2 py-6 md:px-0">
+                  <SkeletonCard />
+                </li>
+              ))
+            : !filteredBlogPosts.length
+            ? 'Không tìm thấy bài viết nào.'
+            : displayPosts.map((post) => {
+                const { slug, date, title, summary, tags } = post
+                return (
+                  <li key={slug} className="px-2 py-6 md:px-0">
+                    <article className="space-y-3 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
+                      <dl>
+                        <dt className="sr-only">Published on</dt>
+                        <dd className="text-sm font-medium leading-6 text-gray-500 dark:text-gray-400 md:text-base">
+                          <time dateTime={date}>{formatDate(date)}</time>
+                        </dd>
+                      </dl>
+                      <div className="space-y-3 xl:col-span-3">
+                        <div>
+                          <h3 className="text-xl font-bold leading-7 tracking-tight sm:text-2xl sm:leading-8">
+                            <Link
+                              href={`/blog/${slug}`}
+                              className="text-gray-900 transition-colors hover:text-primary-500 dark:text-gray-100 dark:hover:text-primary-400"
+                            >
+                              {title}
+                            </Link>
+                          </h3>
+                          <div className="flex flex-wrap gap-1">
+                            {tags.map((tag) => (
+                              <Tag key={tag} text={tag} />
+                            ))}
+                          </div>
+                        </div>
+                        <div className="prose max-w-none text-sm text-gray-500 dark:text-gray-400 sm:text-base">
+                          {summary}
+                        </div>
                       </div>
-                    </div>
-                    <div className="prose max-w-none text-sm text-gray-500 dark:text-gray-400 sm:text-base">
-                      {summary}
-                    </div>
-                  </div>
-                </article>
-              </li>
-            )
-          })}
+                    </article>
+                  </li>
+                )
+              })}
         </ul>
       </div>
       {pagination && pagination.totalPages > 1 && !searchValue && (

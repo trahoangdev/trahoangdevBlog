@@ -1,9 +1,41 @@
+import { useState, useEffect } from 'react'
 import siteMetadata from '@/data/siteMetadata'
 import { PageSEO } from '@/components/SEO'
 import SocialIcon from '@/components/social-icons'
 import Link from '@/components/Link'
+import { SkeletonContent } from '@/components/SkeletonLoader'
 
 export default function Resume() {
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 300)
+    return () => clearTimeout(timer)
+  }, [])
+
+  if (loading) {
+    return (
+      <>
+        <PageSEO
+          title={`Resume - ${siteMetadata.author}`}
+          description={`Resume / CV của ${siteMetadata.author}`}
+        />
+        <div className="divide-y divide-gray-200 dark:divide-gray-700">
+          <div className="space-y-2 pt-6 pb-8 md:space-y-5">
+            <div className="h-12 w-48 animate-pulse rounded bg-gray-200 dark:bg-gray-700" />
+            <div className="h-6 w-96 animate-pulse rounded bg-gray-200 dark:bg-gray-700" />
+          </div>
+          <div className="prose max-w-none pt-8 pb-8 dark:prose-dark xl:col-span-2">
+            <SkeletonContent />
+            <div className="mt-8">
+              <SkeletonContent />
+            </div>
+          </div>
+        </div>
+      </>
+    )
+  }
+
   return (
     <>
       <PageSEO
