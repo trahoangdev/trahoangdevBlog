@@ -55,13 +55,36 @@ export default function Resume() {
         <div className="prose max-w-none pt-8 pb-8 dark:prose-dark xl:col-span-2">
           {/* Contact Info */}
           <div className="mb-8 rounded-lg border-2 border-gray-200 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-800">
-            <h2 className="mt-0 text-2xl font-bold">{siteMetadata.author}</h2>
-            <p className="mb-3 text-gray-600 dark:text-gray-400">Software Engineer | Developer</p>
-            <div className="flex items-center gap-3">
-              <SocialIcon kind="mail" href={`mailto:${siteMetadata.email}`} size={6} />
-              <SocialIcon kind="github" href={siteMetadata.github} size={6} />
-              <SocialIcon kind="linkedin" href={siteMetadata.linkedin} size={6} />
-              <SocialIcon kind="facebook" href={siteMetadata.facebook} size={6} />
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex-1">
+                <h2 className="mt-0 mb-2 text-2xl font-bold">{siteMetadata.author}</h2>
+                <p className="mb-4 text-gray-600 dark:text-gray-400">
+                  Software Engineer | Developer
+                </p>
+                <div className="flex items-center gap-3">
+                  <SocialIcon kind="mail" href={`mailto:${siteMetadata.email}`} size={6} />
+                  <SocialIcon kind="github" href={siteMetadata.github} size={6} />
+                  <SocialIcon kind="linkedin" href={siteMetadata.linkedin} size={6} />
+                  <SocialIcon kind="facebook" href={siteMetadata.facebook} size={6} />
+                </div>
+              </div>
+              <a
+                href="https://portfolio-trahoangdev.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex shrink-0 items-center justify-center gap-2 rounded-lg border-2 border-gray-300 bg-white px-4 py-2 text-sm font-semibold text-gray-700 transition-all hover:border-primary-500 hover:bg-primary-50 hover:text-primary-600 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:border-primary-400 dark:hover:bg-gray-700 dark:hover:text-primary-400 print:hidden"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5z" />
+                  <path d="M5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" />
+                </svg>
+                <span className="whitespace-nowrap">Visit Portfolio</span>
+              </a>
             </div>
           </div>
 

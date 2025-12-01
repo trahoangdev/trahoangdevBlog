@@ -8,7 +8,7 @@ const projectsData = [
     imgSrc: '/trahoangdevBlog/static/images/projects/blog-project.png',
     href: 'https://trahoangdev.github.io/trahoangdevBlog',
   },
-  {
+  /*{
     title: 'Java Socket Programming',
     description: `Ứng dụng Client-Server sử dụng Java Socket API để xây dựng hệ thống chat đa luồng. 
     Triển khai các giao thức TCP/IP, xử lý concurrent connections, và quản lý thread pool. 
@@ -40,6 +40,15 @@ const projectsData = [
     nắm vững kiến thức về OSI model, network security và protocol design.`,
     imgSrc: '/trahoangdevBlog/static/images/projects/network-project.png',
     href: '/blog/network-programming-gioi-thieu',
+  },*/
+  {
+    title: 'Portfolio Platform',
+    description: `Website portfolio cá nhân được xây dựng với Next.js và TypeScript, showcase 
+    các dự án và kỹ năng lập trình. Thiết kế responsive với Tailwind CSS, tối ưu performance 
+    và SEO. Tích hợp animations mượt mà, dark mode support và modern UI/UX design. Deploy 
+    trên Vercel với CI/CD tự động.`,
+    imgSrc: '/trahoangdevBlog/static/images/projects/portfolio-project.png',
+    href: 'https://portfolio-trahoangdev.vercel.app/',
   },
 ]
 
